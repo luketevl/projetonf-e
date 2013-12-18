@@ -2,6 +2,8 @@
 class Pedidos{
 
 	private $documento;
+	private $serie;
+	private $nfe_numero;
 	private $emitente;
 	private $destinatario;
 	private $transportadora;
@@ -22,6 +24,12 @@ class Pedidos{
 
 	public function getDocumento(){
 		return $this->documento ;
+	}
+	public function getSerie(){
+		return $this->serie ;
+	}
+	public function getNfe_numero(){
+		return $this->nfe_numero ;
 	}
 	public function getEmitente(){
 		return $this->emitente ;
@@ -74,6 +82,12 @@ class Pedidos{
 
 	public function setDocumento($value){
 		$this->documento= $value;
+	}
+	public function setSerie($value){
+		$this->serie= $value;
+	}
+	public function setNfe_numero($value){
+		$this->nfe_numero= $value;
 	}
 	public function setEmitente($value){
 		$this->emitente= $value;
