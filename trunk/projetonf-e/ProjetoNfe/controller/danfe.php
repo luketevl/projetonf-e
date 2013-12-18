@@ -1,6 +1,6 @@
 <?php
 require ('../helper/fpdf/fpdf.php');
-
+require('../model/Pedidos_Model.php');
 class PDF extends FPDF
 {
 	function Header()
@@ -69,13 +69,13 @@ class PDF extends FPDF
 		$this->ChapterTitle($num,$title);
 		$this->ChapterBody($file);
 	}
+
+    public function dadosDanfe(){
+        echo $_POST['teste'];
+        echo "<h1>doido</h1>";
+        Pedidos_Model::get_by_id(568);
+    }
+
 }
 
-$pdf = new PDF();
-$title = '20000 Leagues Under the Seas';
-$pdf->SetTitle($title);
-$pdf->SetAuthor('Jules Verne');
-$pdf->PrintChapter(1,'A RUNAWAY REEF','20k_c1');
-$pdf->PrintChapter(2,'THE PROS AND CONS','20k_c2');
-$pdf->Output();
 ?>
