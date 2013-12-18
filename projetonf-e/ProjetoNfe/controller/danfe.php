@@ -13,7 +13,7 @@ class PDF extends FPDF
 // 				echo print_r($ar);
 // 			echo "</pre>";
 	$this->SetFont('Times','',5);
-	$this->Cell(160,3,"RECEBEMOS DE ".strtoupper($this->ar->getEmitente()->getNome())." OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO","LTR",0,"C");
+	$this->Cell(160,3,"RECEBEMOS DE ".strtoupper($this->ar->getDestinatario()->getNome())." OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO","LTR",0,"C");
 	$tpY = $this->GetY();
 	$tpX = $this->GetX();
 	$this->Ln();
@@ -34,7 +34,7 @@ class PDF extends FPDF
 	$this->Cell(0,3,"NF-e","LTR",1,"C");
 	$this->SetFont('Times','',9);
 	$this->SetX($tpX);
-	$this->MultiCell(0,6.5,"Nº {12} \n SÉRIE: {12}" ,"LRB","C");
+	$this->MultiCell(0,6.5,"N {$this->ar->getDocumento()} \n SÉRIE: {$this->ar->getSerie()}" ,"LRB","C");
 
 	$this->Ln(2);
 
@@ -74,7 +74,7 @@ class PDF extends FPDF
 	$this->SetFont('Times','',6);
 	$tpY = $this->GetY();
 	$tpX = $this->GetX();
-	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETR�NICA \n\n\n  \n\n\n\n N� {teste} \n S�RIE {teste} \n\n P�GINA {teste} de {teste} \n\n",1,"C");
+	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETR�NICA \n\n\n  \n\n\n\n N� {$this->ar->getDocumento()} \n S�RIE {$this->ar->getSerie()} \n\n P�GINA {teste} de {teste} \n\n",1,"C");
 	$this->SetY($tpY+2);
 	$this->SetX($tpX);
 	$this->SetFont('Times','B',9);
@@ -89,7 +89,7 @@ class PDF extends FPDF
 	$this->SetY($tpY+17);
 	$this->SetX($tpX+20);
 	$this->SetFont('Times','B',6);
-	$this->Cell(4,5,"teste",1,0,"C");
+	$this->Cell(4,5,"1",1,0,"C");
 	$this->SetY($tpY);
 	$this->SetX($tpX+30);
 
