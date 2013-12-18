@@ -1,4 +1,8 @@
 <?php
+require('../controller/Entidades.php');
+require('../controller/Pedidos.php');
+require('../controller/PedidosItens.php');
+require('../controller/Produtos.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
  *
@@ -84,30 +88,22 @@ class Pedidos_Model{
 			$pi->setAliq_icms($value);
 			$pi->setAliq_ipi($value);
 			$pi->setBc_icms($value);
-			$pi->setProdutos($value);
 			$pi->setQtd($value);
 			$pi->setVr_desc($value);
 			$pi->setVr_icms($value);
 			$pi->setVr_ipi($value);
 			$pi->setVr_total($value);
 			
-			$ar['produtos'] = $p;
-			$ar['produtos'][$i]['cod']=$row['titulo'];
-			$ar['produtos'][$i]['desc']=$row['titulo'];
-			$ar['produtos'][$i]['ncm']=$row['titulo'];
-			$ar['produtos'][$i]['cfop']=$row['titulo'];
-			$ar['produtos'][$i]['und']=$row['titulo'];
-			$ar['produtos'][$i]['qtd']=$row['titulo'];
-			$ar['produtos'][$i]['vr_unitario']=$row['titulo'];
-			$ar['produtos'][$i]['vr_desc']=$row['titulo'];
-			$ar['produtos'][$i]['vr_total']=$row['titulo'];
-			$ar['produtos'][$i]['bc_icms']=$row['titulo'];
-			$ar['produtos'][$i]['vr_icms']=$row['titulo'];
-			$ar['produtos'][$i]['vr_ipi']=$row['titulo'];
-			$ar['produtos'][$i]['aliq_icms']=$row['titulo'];
-			$ar['produtos'][$i]['aliq_ipi']=$row['titulo'];
-	
+            $prod->setCod($value);
+            $prod->setDesc($value);
+            $prod->setNcm($value);
+            $prod->setUnd($value);
+            $prod->setVr_unitario($value);
 
+			$pi->setProdutos($prod);
+			$ar['produtos'][$i]['cfop']=$row['titulo'];
+	
+            
 			$p->setPedidosItens($pi);
 			
 			$ar['pedido']=$p;
