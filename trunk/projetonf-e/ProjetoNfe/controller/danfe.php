@@ -60,10 +60,10 @@ class PDF extends FPDF
 	$this->SetFont('Times','B',9);
 	$X = $this->GetX()+70;
 	//tratamento para dados multicell
-	$this->MultiCell(70,4,"\n".strtoupper("emitente"),"0","L");
+	$this->MultiCell(70,4,"\n".strtoupper($this->ar->getEmitente()->getNome()),"0","L");
 	$this->SetFont('Times','',9);
 	$this->SetX($tpX+30);
-	$this->MultiCell(70,4,"{teste} \n {teste} - {teste2} - CEP {teste} \n FONE {teste} \n "
+	$this->MultiCell(70,4,"{$this->ar->getEmitente()->getEndereco()->getRua() }, {$this->ar->getEmitente()->getEndereco()->getNumero()} \n {$this->ar->getEmitente()->getEndereco()->getCidade()} - {$this->ar->getEmitente()->getEndereco()->getEstado()} - CEP {$this->ar->getEmitente()->getEndereco()->getCep()} \n FONE {$this->ar->getEmitente()->getTelefone()} \n "
 	,"0","L");
 	$Y = $this->GetY();
 	$tp1 = $this->GetY() - $tpY;
@@ -135,8 +135,8 @@ class PDF extends FPDF
 	$this->Cell(130,3,"NATUREZA DA OPERA��O","LTR",0);
 	$this->Cell(0,3,"PROTOCOLO DE AUTORIZA��O DE USO","LTR",1);
 	$this->SetFont('Times','',9);
-	$this->Cell(130,5,"teste","LRB",0);
-	$this->Cell(0,5,"teste2","LRB",1);
+	$this->Cell(130,5,"COLOCA DESCRICAO DO NCM","LRB",0);
+	$this->Cell(0,5,"COLOCA PROTOCOLO AUTORIZACAO","LRB",1);
 
 	//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
 	$this->SetFont('Times','',5);
@@ -144,9 +144,9 @@ class PDF extends FPDF
 	$this->Cell(70,3,"INSCRI��O ESTADUAL DO SUBST. TRIBUT�RIO","LTR",0);
 	$this->Cell(0,3,"CNPJ","LTR",1);
 	$this->SetFont('Times','',9);
-	$this->Cell(80,5,"teste","LRB",0);
+	$this->Cell(80,5,$this->ar->getEmitente()->getIe(),"LRB",0);
 	$this->Cell(70,5,"teste","LRB",0);
-	$this->Cell(0,5,"teste","LRB",1);
+	$this->Cell(0,5,$this->ar->getEmitente()->getCpf_cnpj(),"LRB",1);
 
 	$this->Ln(3);
 	
@@ -618,7 +618,7 @@ function Header_teste()
 	$this->MultiCell(70,4,"\n".strtoupper("emitente"),"0","L");
 	$this->SetFont('Times','',9);
 	$this->SetX($tpX+30);
-	$this->MultiCell(70,4,"{teste} \n {teste} - {teste2} - CEP {teste} \n FONE {teste} \n "
+	$this->MultiCell(70,4,"{$this->ar->getEmitente()->getNome()} \n {teste} - {teste2} - CEP {teste} \n FONE {teste} \n "
 	,"0","L");
 	$Y = $this->GetY();
 	$tp1 = $this->GetY() - $tpY;
@@ -711,9 +711,9 @@ $pdf = new PDF();
 $pdf->dadosDanfe(571);
 $title = '20000 Leagues Under the Seas';
 $pdf->SetTitle($title);
-$pdf->SetAuthor('Jules Verne');
-$pdf->PrintChapter(1,'A RUNAWAY REEF','MERDA MERDA MERDA ');
-$pdf->PrintChapter(2,'THE PROS AND CONS','MERDA MERDA MERDA');
+$pdf->SetAuthor('DANFE');
+//$pdf->PrintChapter(1,'A RUNAWAY REEF','MERDA MERDA MERDA ');
+//$pdf->PrintChapter(2,'THE PROS AND CONS','MERDA MERDA MERDA');
 $pdf->Output();
 
 

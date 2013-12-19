@@ -3,6 +3,7 @@ require('../controller/Entidades.php');
 require('../controller/Pedidos.php');
 require('../controller/PedidosItens.php');
 require('../controller/Produtos.php');
+require('../controller/Enderecos.php');
 require('../model/DataBase.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
@@ -27,8 +28,8 @@ class Pedidos_Model{
 		DataBase::conectar();
 		$query =
 		"select p.*, ip.* , pro.* , pro.id as 'id_prod'
-		 , cli.razao_social as 'cli_razao_social', cli.cnpj as 'cli_cnpj' ,cli.inscricao_estadual as 'cli_inscricao_estadual', cli.endereco as 'cli_endereco', cli.telefone as 'cli_telefone'
-		 , tran.razao_social as 'tran_razao_social', tran.cnpj as 'tran_cnpj' ,tran.inscricao_estadual as 'tran_inscricao_estadual', tran.endereco as 'tran_endereco', tran.telefone as 'tran_telefone' 
+		 , cli.razao_social as 'cli_razao_social', cli.cnpj as 'cli_cnpj' ,cli.inscricao_estadual as 'cli_inscricao_estadual', cli.endereco as 'cli_endereco', cli.telefone as 'cli_telefone', cli.numero as 'cli_numero' , cli.bairro as 'cli_bairro', cli.cidade as 'cli_cidade' , cli.estado as 'cli_estado' , cli.pais as 'cli_pais' , cli.cep as 'cli_cep'
+		 , tran.razao_social as 'tran_razao_social', tran.cnpj as 'tran_cnpj' ,tran.inscricao_estadual as 'tran_inscricao_estadual', tran.endereco as 'tran_endereco', tran.telefone as 'tran_telefone', tran.numero as 'tran_numero' , tran.bairro as 'tran_bairro', tran.cidade as 'tran_cidade' , tran.estado as 'tran_estado' , tran.pais as 'tran_pais' , tran.cep as 'tran_cep' 
 	from pedidos p 
 			join pedidos_itens ip on ip.pedido = p.id 
 		join produtos pro on ip.produto = pro.id 
@@ -49,28 +50,47 @@ class Pedidos_Model{
 			$prod = new Produtos();
 			$i ++;
 			
-			$e = new Entidade();
-			$e->setNome($row['razao_social']);
-			$e->setCpf_cnpj($row['cnpj']);
-			$e->setEndereco($row['endereco']);
-			$e->setIe($row['inscricao_estadual']);
-			$e->setTelefone($row['telefone']);
 			
 			//$ar['emitente']= $e;
 			
 			$d = new Entidade();
+			$end = new Enderecos();
+			
+			$end->setBairro($row['cli_bairro']);
+			$end->setCep($row['cli_cep']);
+			$end->setCidade($row['cli_cidade']);
+			$end->setEstado($row['cli_estado']);
+			$end->setNumero($row['cli_numero']);
+			$end->setPais($row['cli_pais']);
+			$end->setRua($row['cli_endereco']);
+			
+			
 			$d->setNome($row['cli_razao_social']);
 			$d->setCpf_cnpj($row['cli_cnpj']);
-			$d->setEndereco($row['cli_endereco']);
+			$d->setEndereco($end);
 			$d->setIe($row['cli_inscricao_estadual']);
 			$d->setTelefone($row['cli_telefone']);
+			
+			
 			//$ar['destinatario']= $d;
 
 			
 			$t = new Entidade();
+			$end = new Enderecos();
+			
+
+			$end->setBairro($row['tran_bairro']);
+			$end->setCep($row['tran_cep']);
+			$end->setCidade($row['tran_cidade']);
+			$end->setEstado($row['tran_estado']);
+			$end->setNumero($row['tran_numero']);
+			$end->setPais($row['tran_pais']);
+			$end->setRua($row['tran_endereco']);
+				
+			
 			$t->setNome($row['tran_razao_social']);
 			$t->setCpf_cnpj($row['tran_cnpj']);
-			$t->setEndereco($row['tran_endereco']);
+			$t->setEndereco($end);
 			$t->setIe($row['tran_inscricao_estadual']);
 			$t->setTelefone($row['tran_telefone']);
 			
@@ -85,7 +105,6 @@ class Pedidos_Model{
 			$p->setDesconto($row['desconto']);
 			$p->setDespesas_acessorias($row['despesas']);
 			$p->setDestinatario($d);
-			$p->setEmitente($e);
 			$p->setTransportadora($t);
 			$p->setInfo_complementares($row['observacao']);
 			$p->setTotal_prod($row['total']);
@@ -119,6 +138,27 @@ class Pedidos_Model{
 			$p->setPedidosItens($ar['itens']);
 			
 			//$ar['pedido']=$p;
+		}
+		$query = "select * from parceiros par where par.id =1 ";
+		$result = mysql_query($query);
+		while($row = mysql_fetch_assoc($result)){
+			$e = new Entidade();
+			$end = new Enderecos();
+
+			$end->setBairro($row['bairro']);
+			$end->setCep($row['cep']);
+			$end->setCidade($row['cidade']);
+			$end->setEstado($row['estado']);
+			$end->setNumero($row['numero']);
+			$end->setPais($row['pais']);
+			$end->setRua($row['endereco']);
+			
+			$e->setNome($row['razao_social']);
+			$e->setCpf_cnpj($row['cnpj']);
+			$e->setEndereco($end);
+			$e->setIe($row['inscricao_estadual']);
+			$e->setTelefone($row['telefone']);
+			$p->setEmitente($e);
 		}
 // 		echo "<pre>";
 // 		echo print_r($p);
