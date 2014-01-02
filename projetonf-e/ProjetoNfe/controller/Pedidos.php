@@ -3,12 +3,13 @@ class Pedidos{
 
 	private $documento;
 	private $serie;
+	private $chave_acesso;
 	private $nfe_numero;
 	private $emitente;
 	private $destinatario;
 	private $transportadora;
 	private $pedidosItens=array();
-
+	private $nfeHistorico = array();
 	private $bc_icms;
 	private $vr_icms;
 	private $bc_icms_st;
@@ -22,6 +23,7 @@ class Pedidos{
 	private $vr_total_nota;
 	private $info_complementares;
 	private $cfop;
+	private $cfop_descricao;
 
 	public function getDocumento(){
 		return $this->documento ;
@@ -43,6 +45,9 @@ class Pedidos{
 	}
 	public function getPedidosItens(){
 		return $this->pedidosItens ;
+	}
+	public function getNfeHistorico(){
+		return $this->nfeHistorico ;
 	}
 	public function getBc_icms(){
 		return $this->bc_icms ;
@@ -83,6 +88,12 @@ class Pedidos{
 	public function getCfop(){
 		return $this->cfop;
 	}
+	public function getCfop_descricao(){
+		return $this->cfop_descricaoop;
+	}
+	public function getChave_acesso(){
+		return $this->chave_acesso;
+	}
 
 	public function setDocumento($value){
 		$this->documento= $value;
@@ -104,6 +115,9 @@ class Pedidos{
 	}
 	public function setPedidosItens($value){
 		$this->pedidosItens= $value;
+	}
+	public function setNfeHistorico($value){
+		$this->nfeHistorico= $value;
 	}
 	public function setBc_icms($value){
 		$this->bc_icms	= $value;
@@ -143,5 +157,11 @@ class Pedidos{
 	}
 	public function setCfop($value){
 		$this->cfop = $value;
+	}
+	public function setCfop_descricao($value){
+		$this->cfop_descricao = $value;
+	}
+	public function setChave_acesso($value){
+		$this->chave_acesso = $value;
 	}
 }

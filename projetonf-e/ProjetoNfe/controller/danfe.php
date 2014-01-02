@@ -75,7 +75,7 @@ class PDF extends FPDF
 	$this->SetFont('Times','',6);
 	$tpY = $this->GetY();
 	$tpX = $this->GetX();
-	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETRONICA \n\n\n  \n\n\n\n NUM {$this->ar->getDocumento()} \n SERIE {$this->ar->getSerie()} \n\n PAGINA {teste} de {teste} \n\n",1,"C");
+	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETRONICA \n\n\n  \n\n\n\n NUM {$this->ar->getDocumento()} \n SERIE {$this->ar->getSerie()} \n\n  \n\n",1,"C");
 	$this->SetY($tpY+2);
 	$this->SetX($tpX);
 	$this->SetFont('Times','B',9);
@@ -107,8 +107,9 @@ class PDF extends FPDF
 	$x = $this->GetX();
 	$y = $this->GetY();
 	$this->Cell(0,15,'',"LRB",0);
-	if(!empty($teste))
-		$this->Code128($x+4,$y+2,$this->data['nota_chave_acesso_sequencial'],68,10);
+	$chave_acesso = $this->ar->getChave_acesso();
+	if(!empty($chave_acesso))
+		$this->Code128($x+4,$y+2,$chave_acesso,68,10);
 
 	//CHAVE DE ACESSO
 	$this->SetFont('Times','',5);
@@ -120,7 +121,7 @@ class PDF extends FPDF
 	$tpY = $this->GetY();
 	$tpX = $this->GetX();
 	$this->SetFont('Times','',7);
-	$this->Cell(0,5,"teste","LRB",0,"C");
+	$this->Cell(0,5,"$chave_acesso","LRB",0,"C");
 
 	//CONSULTA AUTENTICIDADE NO PORTAL ....
 	$this->SetFont('Times','',7);
@@ -134,9 +135,11 @@ class PDF extends FPDF
 	//NATUREZA DA OPERA��O, PROTOCOLO DE AUTORIZACAO DE USO
 	$this->SetFont('Times','',5);
 	$this->Cell(130,3,"NATUREZA DA OPERACAO","LTR",0);
-	$this->Cell(0,3,"PROTOCOLO DE AUTORIZACAO DE USO","LTR",1);
+	$num_proto = $this->ar->getNfeHistorico()->getNum_protocolo();
+	$num_proto = (empty($num_proto))?"":$this->ar->getNfeHistorico()->getNum_protocolo();
+	$this->Cell(0,3,$num_proto,"LTR",1);
 	$this->SetFont('Times','',9);
-	$this->Cell(130,5,"COLOCA DESCRICAO DO NCM","LRB",0);
+	$this->Cell(130,5,$this->ar->getCfop_descricao(),"LRB",0);
 	$this->Cell(0,5,"COLOCA PROTOCOLO AUTORIZACAO","LRB",1);
 
 	//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
@@ -551,6 +554,14 @@ class PDF extends FPDF
 	
 	public function dadosDanfe($id){
 		$this->ar = Pedidos_Model::get_by_id($id);
+	}
+	
+	function RotatedText($x, $y, $txt, $angle)
+	{
+		//Text rotated around its origin
+		$this->Rotate($angle,$x,$y);
+		$this->Text($x,$y,$txt);
+		$this->Rotate(0);
 	}
 	
 }
