@@ -21,6 +21,7 @@ class Pedidos{
 	private $vr_ipi;
 	private $vr_total_nota;
 	private $info_complementares;
+	private $cfop;
 
 	public function getDocumento(){
 		return $this->documento ;
@@ -78,6 +79,9 @@ class Pedidos{
 	}
 	public function getInfo_complementares(){
 		return $this->info_complementares ;
+	}
+	public function getCfop(){
+		return $this->cfop;
 	}
 
 	public function setDocumento($value){
@@ -137,5 +141,7 @@ class Pedidos{
 	public function setInfo_complementares($value){
 		$this->info_complementares= $value;
 	}
-
+	public function setCfop($value){
+		$this->cfop = $value;
+	}
 }

@@ -11,6 +11,8 @@ class PedidosItens{
 	private $vr_ipi;
 	private $aliq_icms;
 	private $aliq_ipi;
+	private $cfop;
+	private $vr_unit_pedido;
 	
 	public function getProdutos(){
 		return $this->produtos;
@@ -38,6 +40,12 @@ class PedidosItens{
 	}
 	public function getAliq_ipi(){
 		return $this->aliq_ipi;
+	}
+	public function getCfop(){
+		return $this->cfop;
+	}
+	public function getVr_unit_pedido(){
+		return $this->vr_unit_pedido;
 	}
 	
 	public function setProdutos($value){
@@ -67,5 +75,10 @@ class PedidosItens{
 	public function setAliq_ipi($value){
 		$this->aliq_ipi = $value;
 	}
-
+	public function setCfop($value){
+		$this->cfop = $value;
+	}
+	public function setVr_unit_pedido($value){
+		$this->vr_unit_pedido = $value;
+	}
 }
