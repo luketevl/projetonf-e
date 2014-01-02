@@ -28,7 +28,7 @@ class Pedidos_Model{
 	static function get_by_id($id){
 		DataBase::conectar();
 		$query =
-		"select p.*, p.id as 'id_pedido' ip.*, pro.* , pro.id as 'id_prod'
+		"select p.*, p.id as 'id_pedido', ip.*, pro.* , pro.id as 'id_prod'
 		 , cli.razao_social as 'cli_razao_social', cli.cnpj as 'cli_cnpj' ,cli.inscricao_estadual as 'cli_inscricao_estadual', cli.endereco as 'cli_endereco', cli.telefone as 'cli_telefone', cli.numero as 'cli_numero' , cli.bairro as 'cli_bairro', cli.cidade as 'cli_cidade' , cli.estado as 'cli_estado' , cli.pais as 'cli_pais' , cli.cep as 'cli_cep'
 		 , tran.razao_social as 'tran_razao_social', tran.cnpj as 'tran_cnpj' ,tran.inscricao_estadual as 'tran_inscricao_estadual', tran.endereco as 'tran_endereco', tran.telefone as 'tran_telefone', tran.numero as 'tran_numero' , tran.bairro as 'tran_bairro', tran.cidade as 'tran_cidade' , tran.estado as 'tran_estado' , tran.pais as 'tran_pais' , tran.cep as 'tran_cep' 
 	from pedidos p 
