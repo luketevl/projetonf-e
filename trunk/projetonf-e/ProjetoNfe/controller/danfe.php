@@ -7,6 +7,7 @@ class PDF extends FPDF
 	private $ar;
 	function Header()
 	{
+		$this->SetMargins("2","2","2");
 		global $title;
 
 // 			echo "<pre>";
@@ -22,7 +23,7 @@ class PDF extends FPDF
 
 	$this->SetFont('Times','',5);
 	$this->Cell(30,3,"DATA DO RECEBIMENTO","LTR",0);
-	$this->Cell(130,3,"IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR","LTR",1);
+	$this->Cell(130,3,"IDENTIFICACAO E ASSINATURA DO RECEBEDOR","LTR",1);
 	$this->SetFont('Times','',9);
 	$this->Cell(30,5," ","LRB",0);
 	$this->Cell(130,5," ","LRB",1);
@@ -34,7 +35,7 @@ class PDF extends FPDF
 	$this->Cell(0,3,"NF-e","LTR",1,"C");
 	$this->SetFont('Times','',9);
 	$this->SetX($tpX);
-	$this->MultiCell(0,6.5,"N {$this->ar->getDocumento()} \n SÉRIE: {$this->ar->getSerie()}" ,"LRB","C");
+	$this->MultiCell(0,6.5,"NUM {$this->ar->getDocumento()} \n SERIE: {$this->ar->getSerie()}" ,"LRB","C");
 
 	$this->Ln(2);
 
@@ -74,7 +75,7 @@ class PDF extends FPDF
 	$this->SetFont('Times','',6);
 	$tpY = $this->GetY();
 	$tpX = $this->GetX();
-	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETR�NICA \n\n\n  \n\n\n\n N� {$this->ar->getDocumento()} \n S�RIE {$this->ar->getSerie()} \n\n P�GINA {teste} de {teste} \n\n",1,"C");
+	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETRONICA \n\n\n  \n\n\n\n NUM {$this->ar->getDocumento()} \n SERIE {$this->ar->getSerie()} \n\n PAGINA {teste} de {teste} \n\n",1,"C");
 	$this->SetY($tpY+2);
 	$this->SetX($tpX);
 	$this->SetFont('Times','B',9);
@@ -125,83 +126,83 @@ class PDF extends FPDF
 	$this->SetFont('Times','',7);
 	$this->SetY($tpY+7);
 	$this->SetX($tpX);
-	$this->MultiCell(0,3,"Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz autorizadora ","0","C");
+	$this->MultiCell(0,2.5,"Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz autorizadora ","0","C");
 	$this->SetY($tpY+5);
 	$this->SetX($tpX);
 	$this->Cell(0,10,"",1,1);
 
 	//NATUREZA DA OPERA��O, PROTOCOLO DE AUTORIZACAO DE USO
 	$this->SetFont('Times','',5);
-	$this->Cell(130,3,"NATUREZA DA OPERA��O","LTR",0);
-	$this->Cell(0,3,"PROTOCOLO DE AUTORIZA��O DE USO","LTR",1);
+	$this->Cell(130,3,"NATUREZA DA OPERACAO","LTR",0);
+	$this->Cell(0,3,"PROTOCOLO DE AUTORIZACAO DE USO","LTR",1);
 	$this->SetFont('Times','',9);
 	$this->Cell(130,5,"COLOCA DESCRICAO DO NCM","LRB",0);
 	$this->Cell(0,5,"COLOCA PROTOCOLO AUTORIZACAO","LRB",1);
 
 	//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
 	$this->SetFont('Times','',5);
-	$this->Cell(80,3,"INSCRI��O ESTADUAL","LTR",0);
-	$this->Cell(70,3,"INSCRI��O ESTADUAL DO SUBST. TRIBUT�RIO","LTR",0);
+	$this->Cell(80,3,"INSCRICAO ESTADUAL","LTR",0);
+	$this->Cell(70,3,"INSCRICAO ESTADUAL DO SUBST. TRIBUTARIO","LTR",0);
 	$this->Cell(0,3,"CNPJ","LTR",1);
 	$this->SetFont('Times','',9);
 	$this->Cell(80,5,$this->ar->getEmitente()->getIe(),"LRB",0);
-	$this->Cell(70,5,"teste","LRB",0);
+	$this->Cell(70,5,$this->ar->getEmitente()->getIe(),"LRB",0);
 	$this->Cell(0,5,$this->ar->getEmitente()->getCpf_cnpj(),"LRB",1);
 
 	$this->Ln(3);
 	
-	//$this->gera();
+	$this->gera();
 	
 	}
 
 	function gera(){
-		//$this->data = $dados;
 		//$this->StartPageGroup();
 		$this->SetAutoPageBreak(true,"2");
 		$this->AliasNbPages();
 		$this->SetMargins("2","2","2");
-		$this->AddPage();
+	//	$this->AddPage();
 		
 		//DESTINATARIO/EMITENTE
 		$this->SetFont('Times','B',7);
-		$this->Cell(0,3,"DESTINAT�RIO/REMETENTE",0,1);
+		$this->Cell(0,3,"DESTINATARIO/REMETENTE",0,1);
 		$this->SetFont('Times','',5);
 		
 		//NOME/RAZAO SOCIAL
-		$this->Cell(140,3,"NOME/RAZ�O SOCIAL","LTR");
+		$this->Cell(140,3,"NOME/RAZAO SOCIAL","LTR");
 		$this->Cell(40,3,"CNPJ/CPF","LTR");
-		$this->Cell(0,3,"DATA EMISS�O","LTR",1);
+		$this->Cell(0,3,"DATA EMISSAO","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(140,5,str_replace("�", "", str_replace('&', '', 'destinatario_razao_social')),"LBR");
-		$this->Cell(40,5,'destinatario_cpf_cnpj',"LBR");
+		$this->Cell(140,5,str_replace("�", "", str_replace('&', '', $this->ar->getDestinatario()->getNome())),"LBR");
+		$this->Cell(40,5,$this->ar->getDestinatario()->getCpf_cnpj(),"LBR");
 		$this->Cell(0,5,'data_emissao',"LBR",1);
 		
 		//ENDERE�O,BAIRRO/DISTRITO,CEP,DATA ENTRADA/SAIDA
 		$this->SetFont('Times','',5);
-		$this->Cell(110,3,"ENDERE�O","LTR");
+		$this->Cell(110,3,"ENDERECO","LTR");
 		$this->Cell(50,3,"BAIRRO/DISTRITO","LTR");
 		$this->Cell(20,3,"CEP","LTR");
-		$this->Cell(0,3,"DATA ENTRADA/SA�DA","LTR",1);
+		$this->Cell(0,3,"DATA ENTRADA/SAIDA","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(110,5,'destinatario_logradouro',"LBR");
-		$this->Cell(50,5,substr('destinatario_bairro', 0, 25),"LBR");
-		$this->Cell(20,5,'destinatario_cep',"LBR");
+		$this->Cell(110,5,$this->ar->getDestinatario()->getEndereco()->getRua(),"LBR");
+		$this->Cell(50,5,substr($this->ar->getDestinatario()->getEndereco()->getBairro(), 0, 25),"LBR");
+		$this->Cell(20,5,$this->ar->getDestinatario()->getEndereco()->getCep(),"LBR");
 		$this->Cell(0,5,'data_entrada_saida',"LBR",1);
 		
 		//MUNICIPIO,FONE/FAX,UF,INCRICAO ESTADUAL,HORA ENTRADA/SAIDA
 		$this->SetFont('Times','',5);
-		$this->Cell(80,3,"MUNIC�PIO","LTR");
+		$this->Cell(80,3,"MUNICIPIO","LTR");
 		$this->Cell(30,3,"FONE/FAX","LTR");
 		$this->Cell(20,3,"UF","LTR");
-		$this->Cell(50,3,"INSCRI��O ESTADUAL","LTR");
-		$this->Cell(0,3,"HORA ENTRADA/SA�DA","LTR",1);
+		$this->Cell(50,3,"INSCRICAO ESTADUAL","LTR");
+		$this->Cell(0,3,"HORA ENTRADA/SAIDA","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(80,5,'destinatario_municipio',"LBR");
-		$this->Cell(30,5,'destinatario_telefone',"LBR");
-		$this->Cell(20,5,'destinatario_uf',"LBR");
-		$this->Cell(50,5,'destinatario_ie',"LBR");
+		$this->Cell(80,5,$this->ar->getDestinatario()->getEndereco()->getCidade(),"LBR");
+		$this->Cell(30,5,$this->ar->getDestinatario()->getTelefone(),"LBR");
+		$this->Cell(20,5,$this->ar->getDestinatario()->getEndereco()->getEstado(),"LBR");
+		$this->Cell(50,5,$this->ar->getDestinatario()->getIe(),"LBR");
 		$this->Cell(0,5,'hora_entrada_saida',"LBR",1);
 		$this->Ln(3);
+		
 		/*
 		if(!empty($this->data['numero_fatura']) || !empty($this->data['parcelas'])){
 			//FATURA/DUPLICATA
@@ -210,6 +211,9 @@ class PDF extends FPDF
 			$this->SetFont('Times','',5);
 		}
 		
+		*/
+		
+		/*
 		if(!empty($this->data['numero_fatura'])){
 				
 			$this->SetFont('Times','',5);
@@ -224,9 +228,7 @@ class PDF extends FPDF
 			$this->Cell(0,5,"teste","LBR", 1);
 			$this->Ln(1);
 		}
-		*/
 		$this->SetFont('Times','',7);
-		/*
 		if(!empty($this->data['parcelas'])){
 			foreach($this->data['parcelas'] as $v){
 				$tempX = $this->GetX();
@@ -264,121 +266,108 @@ class PDF extends FPDF
 				}
 			}
 			$this->Ln(18);
-		} */
-//		else{
-			$this->Ln(2);
-	//	}
+		} 
+		*/
 		
+		/*
+		else{
+			$this->Ln(2);
+		}
 		//VALOR DO FRETE,VALOR DO SEGURO,DESCONTO,OUTRAS DESPESAS ACESS�RIAS,VALOR DO IPI,VALOR TOTAL DA NOTA
 		if($this->GetY()+8 >= 280){
 			$this->AddPage();
 		}
-		
+		*/
 		//CALCULO DO IMPOSTO
 		$this->SetFont('Times','B',7);
-		$this->Cell(0,3,"C�LCULO DO IMPOSTO",0,1);
+		$this->Cell(0,3,"CALCULO DO IMPOSTO",0,1);
 		$this->SetFont('Times','',5);
 		//BASE DE CALCULO DO ICMS,VALOR DO ICMS,BASE DE CALCULO DO ICMS SUBST., VALOR DO ICMS SUBST.,VALOR TOTAL DOS PRODUTOS
-		$this->Cell(41,3,"BASE DE C�LCULO DO ICMS","LTR");
+		$this->Cell(41,3,"BASE DE CALCULO DO ICMS","LTR");
 		$this->Cell(41,3,"VALOR DO ICMS","LTR");
-		$this->Cell(41,3,"BASE DE C�LCULO DO ICMS SUBST.","LTR");
+		$this->Cell(41,3,"BASE DE CALCULO DO ICMS SUBST.","LTR");
 		$this->Cell(41,3,"VALOR DO ICMS SUBST.","LTR");
 		$this->Cell(0,3,"VALOR TOTAL DOS PRODUTOS","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(41,5,"teste","LBR","0","R");
-		$this->Cell(41,5,"imposto_vr_icms","LBR","0","R");
-		$this->Cell(41,5,'imposto_bc_icms_st',"LBR","0","R");
-		$this->Cell(41,5,'imposto_vr_icms_st',"LBR","0","R");
-		$this->Cell(0,5,'imposto_vr_total_produtos',"LBR",1,"R");
+		
+		$this->Cell(41,5,$this->ar->getBc_icms(),"LBR","0","R");
+		$this->Cell(41,5,$this->ar->getVr_icms(),"LBR","0","R");
+		$this->Cell(41,5,$this->ar->getBc_icms_st(),"LBR","0","R");
+		$this->Cell(41,5,$this->ar->getVr_icms_st(),"LBR","0","R");
+		$this->Cell(0,5,$this->ar->getTotal_prod(),"LBR",1,"R");
 		
 		$this->SetFont('Times','',5);
 		$this->Cell(25,3,"VALOR DO FRETE","LTR");
 		$this->Cell(25,3,"VALOR DO SEGURO","LTR");
 		$this->Cell(25,3,"DESCONTO","LTR");
-		$this->Cell(35,3,"OUTRAS DESPESAS ACESS�RIAS","LTR");
+		$this->Cell(35,3,"OUTRAS DESPESAS ACESSORIAS","LTR");
 		$this->Cell(30,3,"VALOR DO IPI","LTR");
 		$this->Cell(44,3,"VR. APROXIMADO DOS IMPOSTOS, FONTE: IBPT","LTR");
 		$this->Cell(0,3,"VALOR TOTAL DA NOTA","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(25,5,'vr_frete',"LBR","0","R");
-		$this->Cell(25,5,'vr_seguro',"LBR","0","R");
-		$this->Cell(25,5,'vr_desconto',"LBR","0","R");
-		$this->Cell(35,5,'vr_outras_despesas',"LBR","0","R");
-		$this->Cell(30,5,'vr_ipi',"LBR","0","R");
-		$this->Cell(44,5,'vr_total_imposto_nota'." (".format_number(($this->data['vr_total_imposto_nota']/'vr_total_nota')*100)."%)","LBR","0","R");
-		$this->Cell(0,5,'vr_total_nota',"LBR",1,"R");
+		$this->Cell(25,5,$this->ar->getVr_frete(),"LBR","0","R");
+		$this->Cell(25,5,$this->ar->getVr_seguro(),"LBR","0","R");
+		$this->Cell(25,5,$this->ar->getDesconto(),"LBR","0","R");
+		$this->Cell(35,5,$this->ar->getDespesas_acessorias(),"LBR","0","R");
+		$this->Cell(30,5,$this->ar->getVr_ipi(),"LBR","0","R");
+		//$this->Cell(44,5,$this->ar->get." (".(($this->data['vr_total_imposto_nota']/'vr_total_nota')*100)."%)","LBR","0","R");
+		$this->Cell(0,5,$this->ar->getVr_total_nota(),"LBR",1,"R");
 		
 		$this->Ln(3);
 		
 		if($this->GetY()+16 >= 280){
 			$this->AddPage();
 		}
+		
 		//TRANSPORTADORA/VOLUMES TRANSPORTADOS
 		$this->SetFont('Times','B',7);
 		$this->Cell(0,3,"TRANSPORTADORA/VOLUMES TRANSPORTADOS",0,1);
 		$this->SetFont('Times','',5);
 		
 		//NOME/RAZ�O SOCIAL,FRETE POR CONTA,C�DIGO ANTT,PLACA DO VE�CULO,UF,CNPJ/CPF
-		$this->Cell(60,3,"NOME/RAZ�O SOCIAL","LTR");
+		$this->Cell(60,3,"NOME/RAZAO SOCIAL","LTR");
 		$this->Cell(30,3,"FRETE POR CONTA","LTR");
-		$this->Cell(30,3,"C�DIGO ANTT","LTR");
-		$this->Cell(30,3,"PLACA DO VE�CULO","LTR");
+		$this->Cell(30,3,"CODIGO ANTT","LTR");
+		$this->Cell(30,3,"PLACA DO VEICULO","LTR");
 		$this->Cell(20,3,"UF","LTR");
 		$this->Cell(0,3,"CNPJ/CPF","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(60,5,substr('transporte_razao_social', 0, 30),"LBR");
-		$this->Cell(30,5,'transporte_tipo_frete',"LBR");
-		$this->Cell(30,5,'transporte_cod_antt',"LBR");
-		$this->Cell(30,5,'transporte_placa_veiculo',"LBR");
-		$this->Cell(20,5,'transporte_uf_veiculo',"LBR");
-		$this->Cell(0,5,'transporte_cpf_cnpj',"LBR",1);
+		$this->Cell(60,5,substr($this->ar->getTransportadora()->getNome(), 0, 30),"LBR");
+		$this->Cell(30,5,'0 - EMITENTE',"LBR");
+		$this->Cell(30,5,'',"LBR");
+		$this->Cell(30,5,'',"LBR");
+		$this->Cell(20,5,'',"LBR");
+		$this->Cell(0,5,'',"LBR",1);
 		
-		//ENDERE�O,MUNIC�PIO,UF,INSCRI��O ESTADUAL
+		//ENDERECO,MUNICIPIO,UF,INSCRICAO ESTADUAL
 		$this->SetFont('Times','',5);
-		$this->Cell(100,3,"ENDERE�O","LTR");
-		$this->Cell(50,3,"MUNIC�PIO","LTR");
+		$this->Cell(100,3,"ENDERECO","LTR");
+		$this->Cell(50,3,"MUNICIPIO","LTR");
 		$this->Cell(20,3,"UF","LTR");
-		$this->Cell(0,3,"INSCRI��O ESTADUAL","LTR",1);
+		$this->Cell(0,3,"INSCRICAO ESTADUAL","LTR",1);
 		$this->SetFont('Times','',9);
-		$this->Cell(100,5,substr('transporte_endereco', 0, 50),"LBR");
-		$this->Cell(50,5,'transporte_municipio',"LBR");
-		$this->Cell(20,5,'transporte_uf',"LBR");
-		$this->Cell(0,5,'transporte_ie',"LBR",1);
-		/*
-		foreach($this->data['volumes'] as $value){
-			//QUANTIDADE,ESP�CIE,MARCA,NUMERA��O,PESO BRUTO,PESO L�QUIDO
-			$this->SetFont('Times','',5);
-			$this->Cell(34,3,"QUANTIDADE","LTR");
-			$this->Cell(34,3,"ESP�CIE","LTR");
-			$this->Cell(34,3,"MARCA","LTR");
-			$this->Cell(34,3,"NUMERA��O","LTR");
-			$this->Cell(34,3,"PESO BRUTO","LTR");
-			$this->Cell(0,3,"PESO L�QUIDO","LTR",1);
-			$this->SetFont('Times','',9);
-			$this->Cell(34,5,$value['volume_quantidade'],"LBR");
-			$this->Cell(34,5,$value['volume_especie'],"LBR");
-			$this->Cell(34,5,$value['volume_marca'],"LBR");
-			$this->Cell(34,5,$value['volume_numeracao'],"LBR");
-			$this->Cell(34,5,$value['volume_peso_bruto'],"LBR","0","R");
-			$this->Cell(0,5,$value['volume_peso_liquido'],"LBR",1,"R");
-		} */
+		$this->Cell(100,5,substr($this->ar->getTransportadora()->getEndereco()->getRua(), 0, 50),"LBR");
+		$this->Cell(50,5,$this->ar->getTransportadora()->getEndereco()->getCidade(),"LBR");
+		$this->Cell(20,5,$this->ar->getTransportadora()->getEndereco()->getEstado(),"LBR");
+		$this->Cell(0,5,$this->ar->getTransportadora()->getIe(),"LBR",1);
 		$this->Ln(3);
+
 		
 		//DADOS DO PRODUTO/SERVI�O
 		$this->SetFont('Times','B',7);
-		$this->Cell(0,3,"DADOS DO PRODUTO/SERVI�O",0,1);
+		$this->Cell(0,3,"DADOS DO PRODUTO/SERVICO",0,1);
 		$this->SetFont('Times','',6);
 		
 		//CABE�ALHO DE PRODUTOS
 		
-		$imposto_vr_icms_st =  (float)'imposto_vr_icms_st';
+		$imposto_vr_icms_st =  (float)$this->ar->getVr_icms_st();
 		
-		$this->Cell(20,4,"C�DIGO",1,0,"C");
+		$this->Cell(20,4,"CODIGO",1,0,"C");
 		if($imposto_vr_icms_st){
-			$this->Cell(37,4,"DESCRI��O DOS PRODUTOS",1,0,"C");
+			$this->Cell(37,4,"DESCRICAO DOS PRODUTOS",1,0,"C");
 		}
 		else{
-			$this->Cell(50,4,"DESCRI��O DOS PRODUTOS",1,0,"C");
+			$this->Cell(50,4,"DESCRICAO DOS PRODUTOS",1,0,"C");
 		}
 		
 		$this->Cell(13,4,"NCM/SH",1,0,"C");
@@ -386,7 +375,7 @@ class PDF extends FPDF
 		$this->Cell(10,4,"CFOP",1,0,"C");
 		$this->Cell(7,4,"UNID",1,0,"C");
 		$this->Cell(13,4,"QUANT",1,0,"C");
-		$this->Cell(14,4,"V.UNIT�RIO",1,0,"C");
+		$this->Cell(14,4,"V.UNITARIO",1,0,"C");
 		$this->Cell(9,4,"V.DESC",1,0,"C");
 		$this->Cell(11,4,"V.TOTAL",1,0,"C");
 		$this->Cell(11,4,"BC ICMS",1,0,"C");
@@ -400,16 +389,17 @@ class PDF extends FPDF
 		
 		//tamanho da linha para produtos;
 		$l = 4;
-		/*
-		foreach($this->data['itens'] as $value){
+		//echo "<pre>"; print_r($this->ar->getPedidosItens()); echo "</pre>";
+		foreach($this->ar->getPedidosItens() as $value){
+			//echo "<pre>"; print_r($value->getProdutos()->getCod()); echo "</pre>";
 			$y = $this->getY();
 			$x = $this->getX();
-			$descricao	= str_split(['item_descricao'], 35);
+			$descricao	= str_split($value->getProdutos()->getDesc(), 35);
 			$tam = count($descricao);
 			$descricao	= implode('', $descricao);
-				
-			if(!empty($value['item_inf_adic'])){
-				$descricao = $descricao." \n ".$value['item_inf_adic'];
+		$tempObs = $value->getProdutos()->getObservacoes();
+			if(!empty($tempObs)){
+				$descricao = $descricao." \n ".$tempObs;
 			}
 				
 			//jogando o x para segunda coluna
@@ -439,7 +429,7 @@ class PDF extends FPDF
 			$y1=$this->GetY();
 			$this->SetXY($x,$y);
 			$l = ($y1-$y);
-			$this->Cell(20,$l,$value['item_cod'],1,0);
+			$this->Cell(20,$l,$value->getProdutos()->getCod(),1,0);
 			$y = $this->getY();
 			$x = $this->getX();
 				
@@ -449,26 +439,28 @@ class PDF extends FPDF
 			else{
 				$this->Cell(50,$l,"",1,0);
 			}
+			
 				
-			//$this->Cell(53,$l,$value['item_descricao']." ".$value['item_inf_adic'],1,0);
-			$this->Cell(13,$l,$value['item_ncm'],1,0,"C");
-			$this->Cell(7,$l,$value['item_cst'],1,0,"C");
-			$this->Cell(10,$l,$value['item_cfop'],1,0,"C");
-			$this->Cell(7,$l,$value['item_unid'],1,0,"C");
-			$this->Cell(13,$l,$value['item_quantidade'],1,0,"R");
-			$this->Cell(14,$l,$value['item_valor_unitario'],1,0,"R");
-			$this->Cell(9,$l,$value['item_valor_desconto'],1,0,"R");
-			$this->Cell(11,$l,$value['item_valor_total'],1,0,"R");
-			$this->Cell(11,$l,$value['item_bc_icms'],1,0,"R");
-			$this->Cell(10,$l,$value['item_valor_icms'],1,0,"R");
+		//	$this->Cell(53,$l,$value->getProdutos()->getDesc()." ".$value->getProdutos()->getObservacoes(),1,0);
+			
+			$this->Cell(13,$l,$value->getProdutos()->getNcm(),1,0,"C");
+			$this->Cell(7,$l,$value->getProdutos()->getCst(),1,0,"C");
+			$this->Cell(10,$l,$value->getCfop(),1,0,"C");
+			$this->Cell(7,$l,$value->getProdutos()->getUnd(),1,0,"C");
+			$this->Cell(13,$l,$value->getQtd(),1,0,"R");
+			$this->Cell(14,$l,$value->getVr_unit_pedido(),1,0,"R");
+			$this->Cell(9,$l,$value->getVr_desc(),1,0,"R");
+			$this->Cell(11,$l,$value->getVr_total(),1,0,"R");
+			$this->Cell(11,$l,$value->getBc_icms(),1,0,"R");
+			$this->Cell(10,$l,$value->getVr_icms(),1,0,"R");
 			if($imposto_vr_icms_st){
-				$this->Cell(13,$l,$value['item_valor_icms_st'],1,0,"R");
+				$this->Cell(13,$l,$imposto_vr_icms_st,1,0,"R");
 			}
-			$this->Cell(9,$l,$value['item_valor_ipi'],1,0,"R");
-			$this->Cell(12,$l,$value['item_aliquota_icms'],1,0,"R");
-			$this->Cell(0,$l,$value['item_aliquota_ipi'],1,1,"R");
+			$this->Cell(9,$l,$value->getVr_ipi(),1,0,"R");
+			$this->Cell(12,$l,$value->getAliq_icms(),1,0,"R");
+			$this->Cell(0,$l,$value->getAliq_ipi(),1,1,"R");
 		}
-		*/
+		
 		$this->Ln(4);
 		//INFORMA��ES COMPLEMENTARES,RESERVADO AO FISCO
 		//valida��o
@@ -488,25 +480,26 @@ class PDF extends FPDF
 		
 		$this->SetFont('Times','',9);
 		
-		$this->SetHeightRow(3);
-		$this->SetWidths(array(150,56));
-		$this->Row(array(" \n{'informacoes_complementares'}", "\n{'informacoes_fisco'}"));
+		//$this->SetHeightRow(3);
+		//$this->SetWidths(array(150,56));
+		//$this->Row(array(" \n{'informacoes_complementares'}", "\n{'informacoes_fisco'}"));
 		
 		//INFORMA��ES COMPLEMENTARES,RESERVADO AO FISCO
 		$y = $this->SetXY($x, $y);
 		$this->SetFont('Times','',5);
-		$this->Cell(150,3,"INFORMA��ES COMPLEMENTARES","LTR");
+		$this->Cell(150,3,"INFORMACOES COMPLEMENTARES","LTR");
 		$this->Cell(0,3,"RESERVADO AO FISCO","LTR",1);
 		
-		//		$this->Cell(150,40,"","LBR");
-		//		$this->Cell(0,20,"","LBR");
-		//
-		//		$this->SetXY($x, $y+4);
-		//		$this->MultiCell(150,3,substr($this->data['informacoes_complementares'],0, 450),0);
-		//		$this->SetXY($x+103, $y+4);
-		//		$this->MultiCell(103,3,$this->data['informacoes_fisco'],0);
-		//		$this->SetXY($x, $y+4);
+				$this->Cell(150,40,"","LBR");
+				$this->Cell(0,20,"","LBR");
 		
+				$this->SetXY($x, $y+4);
+				$this->MultiCell(150,3,substr('informacoes_complementares',0, 450),0);
+				$this->SetXY($x+103, $y+4);
+				$this->MultiCell(103,3,'informacoes_fisco',0);
+				$this->SetXY($x, $y+4);
+			/*
+	*/	
 	}
 	
 	
@@ -577,7 +570,7 @@ function Header_teste()
 
 	$this->SetFont('Times','',5);
 	$this->Cell(30,3,"DATA DO RECEBIMENTO","LTR",0);
-	$this->Cell(130,3,"IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR","LTR",1);
+	$this->Cell(130,3,"IDENTIFICACAO E ASSINATURA DO RECEBEDOR","LTR",1);
 	$this->SetFont('Times','',9);
 	$this->Cell(30,5," ","LRB",0);
 	$this->Cell(130,5," ","LRB",1);

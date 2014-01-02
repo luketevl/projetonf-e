@@ -6,6 +6,8 @@ class Produtos {
     private $ncm;
     private $und;
     private $vr_unitario;
+    private $observacoes;
+    private $cst;
 
     public function getCod() {
         return $this -> cod;
@@ -23,8 +25,14 @@ class Produtos {
         return $this -> und;
     }
 
+    public function getObservacoes() {
+        return $this -> observacoes;
+    }
     public function getVr_unitario() {
         return $this -> vr_unitario;
+    }
+    public function getCst() {
+        return $this -> cst;
     }
 
     public function setCod($value) {
@@ -45,6 +53,12 @@ class Produtos {
 
     public function setVr_unitario($value) {
         $this -> vr_unitario = $value;
+    }
+    public function setObservacoes($value) {
+        $this -> observacoes = $value;
+    }
+    public function setCst($value) {
+        $this -> cst = $value;
     }
 
 }

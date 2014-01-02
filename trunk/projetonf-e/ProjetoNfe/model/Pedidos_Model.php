@@ -122,6 +122,8 @@ class Pedidos_Model{
 			$pi->setVr_icms($row['val_icm']);
 			$pi->setVr_ipi($row['val_ipi']);
 			$pi->setVr_total($row['subtotal']);
+			$pi->setCfop($row['cfop']);
+			$pi->setVr_unit_pedido($row['preco_unitario']);
 			$ar['itens'][$i]= $pi;	
 			
             $prod->setCod($row['id_prod']);
@@ -129,7 +131,10 @@ class Pedidos_Model{
             $prod->setNcm($row['classificacao_fiscal']);
             $prod->setUnd($row['unidade']);
             $prod->setVr_unitario($row['preco_unitario']);
+            $prod->setObservacoes($row['observacoes']);
+            $prod->setObservacoes($row['tabela_st']);
 
+            
 			$pi->setProdutos($prod);
 			
 			//$ar['produtos'][$i]['cfop']=$row['titulo'];
@@ -139,7 +144,7 @@ class Pedidos_Model{
 			
 			//$ar['pedido']=$p;
 		}
-		$query = "select * from parceiros par where par.id =1 ";
+		$query = "select * from opcoes ";
 		$result = mysql_query($query);
 		while($row = mysql_fetch_assoc($result)){
 			$e = new Entidade();
