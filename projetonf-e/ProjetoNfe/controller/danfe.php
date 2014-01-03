@@ -5,156 +5,156 @@ require ('../model/Pedidos_Model.php');
 class PDF extends FPDF
 {
 	private $ar;
-	function Header()
-	{
+	function Header(){
 		$this->SetMargins("2","2","2");
 		global $title;
-
-// 			echo "<pre>";
-// 				echo print_r($ar);
-// 			echo "</pre>";
-	$this->SetFont('Times','',5);
-	$this->Cell(160,3,"RECEBEMOS DE ".strtoupper($this->ar->getDestinatario()->getNome())." OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO","LTR",0,"C");
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->Ln();
-	$this->SetFont('Times','',9);
-	$this->Cell(160,5," ","LRB",1);
-
-	$this->SetFont('Times','',5);
-	$this->Cell(30,3,"DATA DO RECEBIMENTO","LTR",0);
-	$this->Cell(130,3,"IDENTIFICACAO E ASSINATURA DO RECEBEDOR","LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(30,5," ","LRB",0);
-	$this->Cell(130,5," ","LRB",1);
-
-	$this->SetY($tpY);
-	$this->SetX($tpX);
-
-	$this->SetFont('Times','',5);
-	$this->Cell(0,3,"NF-e","LTR",1,"C");
-	$this->SetFont('Times','',9);
-	$this->SetX($tpX);
-	$this->MultiCell(0,6.5,"NUM {$this->ar->getDocumento()} \n SERIE: {$this->ar->getSerie()}" ,"LRB","C");
-
-	$this->Ln(2);
-
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-/*
-	$image_path = null;
-	list($width, $height, $type, $attr)= getimagesize($image_path);
-
-	if (max($width,$height) == $width){
-		$height = ($height * 28) / $width;
-		$width = 28;
-	}
-	else{
-		$width = ($width * 28) / $height;
-		$height = 28;
-	}
-	$this->SetY($tpY +3);
-	$this->Image($image_path,null,null,$width,$height);
-*/
-	$this->SetY($tpY);
-	$this->SetX($tpX+30);
-	$this->SetFont('Times','B',9);
-	$X = $this->GetX()+70;
-	//tratamento para dados multicell
-	$this->MultiCell(70,4,"\n".strtoupper($this->ar->getEmitente()->getNome()),"0","L");
-	$this->SetFont('Times','',9);
-	$this->SetX($tpX+30);
-	$this->MultiCell(70,4,"{$this->ar->getEmitente()->getEndereco()->getRua() }, {$this->ar->getEmitente()->getEndereco()->getNumero()} \n {$this->ar->getEmitente()->getEndereco()->getCidade()} - {$this->ar->getEmitente()->getEndereco()->getEstado()} - CEP {$this->ar->getEmitente()->getEndereco()->getCep()} \n FONE {$this->ar->getEmitente()->getTelefone()} \n "
-	,"0","L");
-	$Y = $this->GetY();
-	$tp1 = $this->GetY() - $tpY;
-	$this->SetY($tpY);
-	$this->SetX($tpX);
-	$this->Cell(100,36,"",1);
-	$this->SetX($X);
-	$this->SetFont('Times','',6);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETRONICA \n\n\n  \n\n\n\n NUM {$this->ar->getDocumento()} \n SERIE {$this->ar->getSerie()} \n\n  \n\n",1,"C");
-	$this->SetY($tpY+2);
-	$this->SetX($tpX);
-	$this->SetFont('Times','B',9);
-	$this->Cell(30,4,"DANFE",0,0,"C");
-	$this->SetFont('Times','',6);
-	$this->SetY($tpY+17);
-	$this->SetX($tpX);
-	$this->Cell(35,2,"      0 - ENTRADA",0,0);
-	$this->SetY($tpY+20);
-	$this->SetX($tpX);
-	$this->Cell(35,2,"      1 - SAIDA",0,0);
-	$this->SetY($tpY+17);
-	$this->SetX($tpX+20);
-	$this->SetFont('Times','B',6);
-	$this->Cell(4,5,"1",1,0,"C");
-	$this->SetY($tpY);
-	$this->SetX($tpX+30);
-
-	//controle do fisco
-	$this->SetFont('Times','',5);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->Cell(0,3,'CONTROLE DO FISCO',"LTR",0);
-	$this->SetY($tpY+3);
-	$this->SetX($tpX);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->SetFont('Times','',9);
-	$x = $this->GetX();
-	$y = $this->GetY();
-	$this->Cell(0,15,'',"LRB",0);
-	$chave_acesso = $this->ar->getChave_acesso();
-	if(!empty($chave_acesso))
-		$this->Code128($x+4,$y+2,$chave_acesso,68,10);
-
-	//CHAVE DE ACESSO
-	$this->SetFont('Times','',5);
-	$this->SetY($tpY+15);
-	$this->SetX($tpX);
-	$this->Cell(0,3,'CHAVE DE ACESSO',"LTR",0);
-	$this->SetY($tpY+18);
-	$this->SetX($tpX);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->SetFont('Times','',7);
-	$this->Cell(0,5,"$chave_acesso","LRB",0,"C");
-
-	//CONSULTA AUTENTICIDADE NO PORTAL ....
-	$this->SetFont('Times','',7);
-	$this->SetY($tpY+7);
-	$this->SetX($tpX);
-	$this->MultiCell(0,2.5,"Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz autorizadora ","0","C");
-	$this->SetY($tpY+5);
-	$this->SetX($tpX);
-	$this->Cell(0,10,"",1,1);
-
-	//NATUREZA DA OPERA��O, PROTOCOLO DE AUTORIZACAO DE USO
-	$this->SetFont('Times','',5);
-	$this->Cell(130,3,"NATUREZA DA OPERACAO","LTR",0);
-	$num_proto = $this->ar->getNfeHistorico()->getNum_protocolo();
-	$num_proto = (empty($num_proto))?"":$this->ar->getNfeHistorico()->getNum_protocolo();
-	$this->Cell(0,3,$num_proto,"LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(130,5,$this->ar->getCfop_descricao(),"LRB",0);
-	$this->Cell(0,5,"COLOCA PROTOCOLO AUTORIZACAO","LRB",1);
-
-	//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
-	$this->SetFont('Times','',5);
-	$this->Cell(80,3,"INSCRICAO ESTADUAL","LTR",0);
-	$this->Cell(70,3,"INSCRICAO ESTADUAL DO SUBST. TRIBUTARIO","LTR",0);
-	$this->Cell(0,3,"CNPJ","LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(80,5,$this->ar->getEmitente()->getIe(),"LRB",0);
-	$this->Cell(70,5,$this->ar->getEmitente()->getIe(),"LRB",0);
-	$this->Cell(0,5,$this->ar->getEmitente()->getCpf_cnpj(),"LRB",1);
-
-	$this->Ln(3);
+	 	$this->SetY((2));
 	
-	$this->gera();
+	 	$this->SetFont('Times','',5);
+		$this->Cell(160,3,"RECEBEMOS DE ".strtoupper($this->ar->getDestinatario()->getNome())." OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO","LTR",0,"C");
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+		$this->Ln();
+		$this->SetFont('Times','',9);
+		$this->Cell(160,5," ","LRB",1);
+	
+		
+		$this->SetFont('Times','',5);
+		$this->Cell(30,3,"DATA DO RECEBIMENTO","LTR",0);
+		$this->Cell(130,3,"IDENTIFICACAO E ASSINATURA DO RECEBEDOR","LTR",1);
+		$this->SetFont('Times','',9);
+		$this->Cell(30,5," ","LRB",0);
+		$this->Cell(130,5," ","LRB",1);
+	
+		$this->SetY(($tpY));
+		$this->SetX($tpX);
+	
+		$this->SetFont('Times','',5);
+		$this->Cell(0,3,"NF-e","LTR",1,"C");
+		$this->SetFont('Times','',9);
+		$this->SetX($tpX);
+		$this->MultiCell(0,6.5,"NUM {$this->ar->getDocumento()} \n SERIE: {$this->ar->getSerie()}" ,"LRB","C");
+	
+		$this->Ln(2);
+	
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+	/*
+		$image_path = null;
+		list($width, $height, $type, $attr)= getimagesize($image_path);
+	
+		if (max($width,$height) == $width){
+			$height = ($height * 28) / $width;
+			$width = 28;
+		}
+		else{
+			$width = ($width * 28) / $height;
+			$height = 28;
+		}
+		$this->SetY($tpY +3);
+		$this->Image($image_path,null,null,$width,$height);
+	*/
+		$this->SetY($tpY);
+		$this->SetX($tpX+30);
+		$this->SetFont('Times','B',9);
+		$X = $this->GetX()+70;
+		//tratamento para dados multicell
+		$this->MultiCell(70,4,"\n".strtoupper($this->ar->getEmitente()->getNome()),"0","L");
+		$this->SetFont('Times','',9);
+		$this->SetX($tpX+30);
+		$this->MultiCell(70,4,"{$this->ar->getEmitente()->getEndereco()->getRua() }, {$this->ar->getEmitente()->getEndereco()->getNumero()} \n {$this->ar->getEmitente()->getEndereco()->getCidade()} - {$this->ar->getEmitente()->getEndereco()->getEstado()} - CEP {$this->ar->getEmitente()->getEndereco()->getCep()} \n FONE {$this->ar->getEmitente()->getTelefone()} \n "
+		,"0","L");
+		$Y = $this->GetY();
+		$tp1 = $this->GetY() - $tpY;
+		$this->SetY($tpY);
+		$this->SetX($tpX);
+		$this->Cell(100,36,"",1);
+		$this->SetX($X);
+		$this->SetFont('Times','',6);
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+		$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETRONICA \n\n\n  \n\n\n\n NUM {$this->ar->getDocumento()} \n SERIE {$this->ar->getSerie()} \n\n  \n\n",1,"C");
+		$this->SetY($tpY+2);
+		$this->SetX($tpX);
+		$this->SetFont('Times','B',9);
+		$this->Cell(30,4,"DANFE",0,0,"C");
+		$this->SetFont('Times','',6);
+		$this->SetY($tpY+17);
+		$this->SetX($tpX);
+		$this->Cell(35,2,"      0 - ENTRADA",0,0);
+		$this->SetY($tpY+20);
+		$this->SetX($tpX);
+		$this->Cell(35,2,"      1 - SAIDA",0,0);
+		$this->SetY($tpY+17);
+		$this->SetX($tpX+20);
+		$this->SetFont('Times','B',6);
+		$this->Cell(4,5,"1",1,0,"C");
+		$this->SetY($tpY);
+		$this->SetX($tpX+30);
+	
+		//controle do fisco
+		$this->SetFont('Times','',5);
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+		$this->Cell(0,3,'CONTROLE DO FISCO',"LTR",0);
+		$this->SetY($tpY+3);
+		$this->SetX($tpX);
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+		$this->SetFont('Times','',9);
+		$x = $this->GetX();
+		$y = $this->GetY();
+		$this->Cell(0,15,'',"LRB",0);
+		$chave_acesso = $this->ar->getChave_acesso();
+		if(!empty($chave_acesso))
+			$this->Code128($x+4,$y+2,$chave_acesso,68,10);
+	
+		//CHAVE DE ACESSO
+		$this->SetFont('Times','',5);
+		$this->SetY($tpY+15);
+		$this->SetX($tpX);
+		$this->Cell(0,3,'CHAVE DE ACESSO',"LTR",0);
+		$this->SetY($tpY+18);
+		$this->SetX($tpX);
+		$tpY = $this->GetY();
+		$tpX = $this->GetX();
+		$this->SetFont('Times','',7);
+		$this->Cell(0,5,"$chave_acesso","LRB",0,"C");
+	
+		//CONSULTA AUTENTICIDADE NO PORTAL ....
+		$this->SetFont('Times','',7);
+		$this->SetY($tpY+7);
+		$this->SetX($tpX);
+		$this->MultiCell(0,2.5,"Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz autorizadora ","0","C");
+		$this->SetY($tpY+5);
+		$this->SetX($tpX);
+		$this->Cell(0,10,"",1,1);
+	
+		//NATUREZA DA OPERA��O, PROTOCOLO DE AUTORIZACAO DE USO
+		$this->SetFont('Times','',5);
+		$this->Cell(130,3,"NATUREZA DA OPERACAO","LTR",0);
+		$num_proto = $this->ar->getNfeHistorico();
+		
+		$varTemp_protocolo = $num_proto[0]->getNum_protocolo();
+		$num_proto = (empty($varTemp_protocolo))?"":$varTemp_protocolo;
+		$this->Cell(0,3,"PROTOCOLO DE AUTORIZACAO DE USO","LTR",1);
+		$this->SetFont('Times','',9);
+		$this->Cell(130,5,$this->ar->getCfop_descricao(),"LRB",0);
+		$this->Cell(0,5,$num_proto,"LRB",1);
+	
+		//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
+		$this->SetFont('Times','',5);
+		$this->Cell(80,3,"INSCRICAO ESTADUAL","LTR",0);
+		$this->Cell(70,3,"INSCRICAO ESTADUAL DO SUBST. TRIBUTARIO","LTR",0);
+		$this->Cell(0,3,"CNPJ","LTR",1);
+		$this->SetFont('Times','',9);
+		$this->Cell(80,5,$this->ar->getEmitente()->getIe(),"LRB",0);
+		$this->Cell(70,5,$this->ar->getEmitente()->getIe(),"LRB",0);
+		$this->Cell(0,5,$this->ar->getEmitente()->getCpf_cnpj(),"LRB",1);
+	
+		$this->Ln(3);
+		
+		$this->gera();
 	
 	}
 
@@ -497,9 +497,9 @@ class PDF extends FPDF
 				$this->Cell(0,20,"","LBR");
 		
 				$this->SetXY($x, $y+4);
-				$this->MultiCell(150,3,substr('informacoes_complementares',0, 450),0);
+	//			$this->MultiCell(150,3,substr('informacoes_complementares',0, 450),0);
 				$this->SetXY($x+103, $y+4);
-				$this->MultiCell(103,3,'informacoes_fisco',0);
+		//		$this->MultiCell(103,3,'informacoes_fisco',0);
 				$this->SetXY($x, $y+4);
 			/*
 	*/	
@@ -567,158 +567,8 @@ class PDF extends FPDF
 }
 
 
-function Header_teste()
-{
-
-	
-	$this->SetFont('Times','',5);
-	$this->Cell(160,3,"RECEBEMOS DE ".strtoupper("Teste")." OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO","LTR",0,"C");
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->Ln();
-	$this->SetFont('Times','',9);
-	$this->Cell(160,5," ","LRB",1);
-
-	$this->SetFont('Times','',5);
-	$this->Cell(30,3,"DATA DO RECEBIMENTO","LTR",0);
-	$this->Cell(130,3,"IDENTIFICACAO E ASSINATURA DO RECEBEDOR","LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(30,5," ","LRB",0);
-	$this->Cell(130,5," ","LRB",1);
-
-	$this->SetY($tpY);
-	$this->SetX($tpX);
-
-	$this->SetFont('Times','',5);
-	$this->Cell(0,3,"NF-e","LTR",1,"C");
-	$this->SetFont('Times','',9);
-	$this->SetX($tpX);
-	$this->MultiCell(0,6.5,"Nº {12} \n SÉRIE: {12}" ,"LRB","C");
-
-	$this->Ln(2);
-
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-
-	$image_path = null;
-	list($width, $height, $type, $attr)= getimagesize($image_path);
-
-	if (max($width,$height) == $width){
-		$height = ($height * 28) / $width;
-		$width = 28;
-	}
-	else{
-		$width = ($width * 28) / $height;
-		$height = 28;
-	}
-	$this->SetY($tpY +3);
-	$this->Image($image_path,null,null,$width,$height);
-
-	$this->SetY($tpY);
-	$this->SetX($tpX+30);
-	$this->SetFont('Times','B',9);
-	$X = $this->GetX()+70;
-	//tratamento para dados multicell
-	$this->MultiCell(70,4,"\n".strtoupper("emitente"),"0","L");
-	$this->SetFont('Times','',9);
-	$this->SetX($tpX+30);
-	$this->MultiCell(70,4,"{$this->ar->getEmitente()->getNome()} \n {teste} - {teste2} - CEP {teste} \n FONE {teste} \n "
-	,"0","L");
-	$Y = $this->GetY();
-	$tp1 = $this->GetY() - $tpY;
-	$this->SetY($tpY);
-	$this->SetX($tpX);
-	$this->Cell(100,36,"",1);
-	$this->SetX($X);
-	$this->SetFont('Times','',6);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->MultiCell(30,2,"\n\n\n\n DOCUMENTO AUXILIAR DE NOTA FISCAL ELETR�NICA \n\n\n  \n\n\n\n N� {teste} \n S�RIE {teste} \n\n P�GINA {teste} de {$this->PageGroupAlias()} \n\n",1,"C");
-	$this->SetY($tpY+2);
-	$this->SetX($tpX);
-	$this->SetFont('Times','B',9);
-	$this->Cell(30,4,"DANFE",0,0,"C");
-	$this->SetFont('Times','',6);
-	$this->SetY($tpY+17);
-	$this->SetX($tpX);
-	$this->Cell(35,2,"      0 - ENTRADA",0,0);
-	$this->SetY($tpY+20);
-	$this->SetX($tpX);
-	$this->Cell(35,2,"      1 - SAIDA",0,0);
-	$this->SetY($tpY+17);
-	$this->SetX($tpX+20);
-	$this->SetFont('Times','B',6);
-	$this->Cell(4,5,"teste",1,0,"C");
-	$this->SetY($tpY);
-	$this->SetX($tpX+30);
-
-	//controle do fisco
-	$this->SetFont('Times','',5);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->Cell(0,3,'CONTROLE DO FISCO',"LTR",0);
-	$this->SetY($tpY+3);
-	$this->SetX($tpX);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->SetFont('Times','',9);
-	$x = $this->GetX();
-	$y = $this->GetY();
-	$this->Cell(0,15,'',"LRB",0);
-	if(!empty($teste))
-		$this->Code128($x+4,$y+2,$this->data['nota_chave_acesso_sequencial'],68,10);
-
-	//CHAVE DE ACESSO
-	$this->SetFont('Times','',5);
-	$this->SetY($tpY+15);
-	$this->SetX($tpX);
-	$this->Cell(0,3,'CHAVE DE ACESSO',"LTR",0);
-	$this->SetY($tpY+18);
-	$this->SetX($tpX);
-	$tpY = $this->GetY();
-	$tpX = $this->GetX();
-	$this->SetFont('Times','',7);
-	$this->Cell(0,5,"teste","LRB",0,"C");
-
-	//CONSULTA AUTENTICIDADE NO PORTAL ....
-	$this->SetFont('Times','',7);
-	$this->SetY($tpY+7);
-	$this->SetX($tpX);
-	$this->MultiCell(0,3,"Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz autorizadora ","0","C");
-	$this->SetY($tpY+5);
-	$this->SetX($tpX);
-	$this->Cell(0,10,"",1,1);
-
-	//NATUREZA DA OPERA��O, PROTOCOLO DE AUTORIZACAO DE USO
-	$this->SetFont('Times','',5);
-	$this->Cell(130,3,"NATUREZA DA OPERA��O","LTR",0);
-	$this->Cell(0,3,"PROTOCOLO DE AUTORIZA��O DE USO","LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(130,5,"teste","LRB",0);
-	$this->Cell(0,5,"teste2","LRB",1);
-
-	//INSCRICAO ESTADUAL, INSC. ESTADUAL DO SUBST. TRIBUTARIO, CNPJ
-	$this->SetFont('Times','',5);
-	$this->Cell(80,3,"INSCRI��O ESTADUAL","LTR",0);
-	$this->Cell(70,3,"INSCRI��O ESTADUAL DO SUBST. TRIBUT�RIO","LTR",0);
-	$this->Cell(0,3,"CNPJ","LTR",1);
-	$this->SetFont('Times','',9);
-	$this->Cell(80,5,"teste","LRB",0);
-	$this->Cell(70,5,"teste","LRB",0);
-	$this->Cell(0,5,"teste","LRB",1);
-
-	$this->Ln(3);
-
-}
-
 $pdf = new PDF();
 $pdf->dadosDanfe(571);
-$title = '20000 Leagues Under the Seas';
-$pdf->SetTitle($title);
 $pdf->SetAuthor('DANFE');
-//$pdf->PrintChapter(1,'A RUNAWAY REEF','MERDA MERDA MERDA ');
-//$pdf->PrintChapter(2,'THE PROS AND CONS','MERDA MERDA MERDA');
 $pdf->Output();
-
-
 ?>
