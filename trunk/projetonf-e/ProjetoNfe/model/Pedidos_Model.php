@@ -47,7 +47,7 @@ class Pedidos_Model{
 		$p = new Pedidos();
 		$h = new NfeHistorico();
 		while ($row = mysql_fetch_assoc($result)) {
-			
+			$ar['historicos'] = array();
 			$pi = new PedidosItens();		
 			$prod = new Produtos();
 			$i ++;
@@ -170,13 +170,15 @@ class Pedidos_Model{
 			$e->setTelefone($row['telefone']);
 			$p->setEmitente($e);
 		}
-		$query = "select * from nfe_historico nfh where id_nota = ". $id . " order by nfh.id ASC limit 1";
+		$query = "select * from nfe_historico nfh where nfh.id_nota = ". $id . " order by nfh.id ASC limit 1";
 		$result = mysql_query($query);
 		//echo $query;
+		$iHisto=0;
 		while($row = mysql_fetch_assoc($result)){
 			$h = new NfeHistorico();
-			$h->setNum_protocolo($row['num_protocolo']);
-			$ar['historicos'][$i] = $h;
+			$h->setNum_protocolo($row['num_protocol']);
+			$ar['historicos'][$iHisto] = $h;
+			$iHisto++;
 		}
 		$p->setNfeHistorico($ar['historicos']);
 		
