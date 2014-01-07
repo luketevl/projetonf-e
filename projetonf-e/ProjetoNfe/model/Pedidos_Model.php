@@ -1,11 +1,12 @@
 <?php
-require('../controller/Entidades.php');
-require('../controller/Pedidos.php');
-require('../controller/NfeHistorico.php');
-require('../controller/PedidosItens.php');
-require('../controller/Produtos.php');
-require('../controller/Enderecos.php');
-require('../model/DataBase.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Entidades.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Pedidos.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/NfeHistorico.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/PedidosItens.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Produtos.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Enderecos.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/model/DataBase.php');
+require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/model/Entidade_Model.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
  *
@@ -105,7 +106,7 @@ class Pedidos_Model{
 			$p->setBc_icms($row['preco_icms']);
 			$p->setBc_icms_st($row['preco_icms_st']);
 			$p->setDesconto($row['desconto']);
-			$p->setDespesas_acessorias($row['despesas']);
+			$p->setDespesas_acessorias($row['despesa']);
 			$p->setDestinatario($d);
 			$p->setTransportadora($t);
 			$p->setInfo_complementares($row['observacao']);
@@ -149,27 +150,9 @@ class Pedidos_Model{
 			
 			//$ar['pedido']=$p;
 		}
-		$query = "select * from opcoes ";
-		$result = mysql_query($query);
-		while($row = mysql_fetch_assoc($result)){
-			$e = new Entidade();
-			$end = new Enderecos();
-
-			$end->setBairro($row['bairro']);
-			$end->setCep($row['cep']);
-			$end->setCidade($row['cidade']);
-			$end->setEstado($row['estado']);
-			$end->setNumero($row['numero']);
-			$end->setPais($row['pais']);
-			$end->setRua($row['endereco']);
-			
-			$e->setNome($row['razao_social']);
-			$e->setCpf_cnpj($row['cnpj']);
-			$e->setEndereco($end);
-			$e->setIe($row['inscricao_estadual']);
-			$e->setTelefone($row['telefone']);
-			$p->setEmitente($e);
-		}
+        
+        $tempEmitente = Entidade_Model::getEmpresa();
+		$p->setEmitente($tempEmitente);
 		$query = "select * from nfe_historico nfh where nfh.id_nota = ". $id . " order by nfh.id ASC limit 1";
 		$result = mysql_query($query);
 		//echo $query;

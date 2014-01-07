@@ -89,7 +89,7 @@ class Pedidos{
 		return $this->cfop;
 	}
 	public function getCfop_descricao(){
-		return $this->cfop_descricaoop;
+		return $this->cfop_descricao;
 	}
 	public function getChave_acesso(){
 		return $this->chave_acesso;
