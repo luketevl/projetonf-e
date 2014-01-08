@@ -13,6 +13,8 @@ class PedidosItens{
 	private $aliq_ipi;
 	private $cfop;
 	private $vr_unit_pedido;
+	private $cst;
+	private $orig;
 	
 	public function getProdutos(){
 		return $this->produtos;
@@ -46,6 +48,12 @@ class PedidosItens{
 	}
 	public function getVr_unit_pedido(){
 		return $this->vr_unit_pedido;
+	}
+	public function getCst(){
+		return $this->cst;
+	}
+	public function getOrig(){
+		return $this->orig;
 	}
 	
 	public function setProdutos($value){
@@ -81,4 +89,11 @@ class PedidosItens{
 	public function setVr_unit_pedido($value){
 		$this->vr_unit_pedido = $value;
 	}
+	public function setCst($value){
+		$this->cst = $value;
+	}
+	public function setOrig($value){
+		$this->orig = $value;
+	}
+
 }

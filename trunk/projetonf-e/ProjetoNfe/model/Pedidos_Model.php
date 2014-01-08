@@ -1,12 +1,12 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Entidades.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Pedidos.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/NfeHistorico.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/PedidosItens.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Produtos.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/controller/Enderecos.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/model/DataBase.php');
-require($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/model/Entidade_Model.php');
+require('../controller/Entidades.php');
+require('../controller/Pedidos.php');
+require('../controller/NfeHistorico.php');
+require('../controller/PedidosItens.php');
+require('../controller/Produtos.php');
+require('../controller/Enderecos.php');
+require('../model/DataBase.php');
+require('../model/Entidade_Model.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
  *
@@ -69,6 +69,7 @@ class Pedidos_Model{
 			
 			
 			$d->setNome($row['cli_razao_social']);
+			
 			$d->setCpf_cnpj($row['cli_cnpj']);
 			$d->setEndereco($end);
 			$d->setIe($row['cli_inscricao_estadual']);
@@ -129,6 +130,8 @@ class Pedidos_Model{
 			$pi->setVr_ipi($row['val_ipi']);
 			$pi->setVr_total($row['subtotal']);
 			$pi->setCfop($row['cfop']);
+			$pi->setOrig($row['cst']{0});
+			$pi->setCst(substr($row['cst'] , -2));
 			$pi->setVr_unit_pedido($row['preco_unitario']);
 			$ar['itens'][$i]= $pi;	
 			

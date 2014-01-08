@@ -7,6 +7,7 @@ class Enderecos {
 	private $estado;
 	private $pais;
 	private $cep;	
+	private $codUF;
 
 	public function getRua(){
 		return $this->rua ;
@@ -34,6 +35,9 @@ class Enderecos {
 	
 	public function getCep(){
 		return $this->cep ;
+
+	}public function getCodUf(){
+		return $this->codUF ;
 	}
 	
 	public function setRua($value){
@@ -62,6 +66,9 @@ class Enderecos {
 	
 	public function setCep($value){
 		return $this->cep= $value ;
+	}
+	public function setCodUf($value){
+		return $this->codUF= $value ;
 	}
 	
 	
