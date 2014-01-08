@@ -19,9 +19,11 @@ class Entidade_Model{
             $end->setRua($row['endereco']);
             
             $e->setNome($row['razao_social']);
+            $e->setNomeFantasia($row['nome_fantasia']);
             $e->setCpf_cnpj($row['cnpj']);
             $e->setEndereco($end);
             $e->setIe($row['inscricao_estadual']);
+            $e->setIM($row['inscricao_municipal']);
             $e->setTelefone($row['telefone']);
             
         }
