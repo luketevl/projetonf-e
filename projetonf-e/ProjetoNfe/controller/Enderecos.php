@@ -36,7 +36,7 @@ class Enderecos {
 	public function getCep(){
 		return $this->cep ;
 
-	}public function getCodUf(){
+	}public function getCodUF(){
 		return $this->codUF ;
 	}
 	

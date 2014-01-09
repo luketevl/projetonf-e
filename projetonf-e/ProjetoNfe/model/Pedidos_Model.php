@@ -105,6 +105,7 @@ class Pedidos_Model{
 			$p->setDocumento($row['documento']);
 			$p->setSerie($row['nfe_serie']);
 			$p->setBc_icms($row['preco_icms']);
+
 			$p->setBc_icms_st($row['preco_icms_st']);
 			$p->setDesconto($row['desconto']);
 			$p->setDespesas_acessorias($row['despesa']);
@@ -123,12 +124,21 @@ class Pedidos_Model{
 			
 			$pi->setAliq_icms($row['total']);
 			$pi->setAliq_ipi($row['val_ipi']);
+			
+			$pi->setTotal_icms($row['total_icm']);
+			
+			$pi->setAliq_pis($row['aliqpis']);
+			$pi->setAliq_cofins($row['aliqcof']);
+
 			$pi->setBc_icms($row['base_icm']);
 			$pi->setQtd($row['quantidade']);
 			$pi->setVr_desc($row['desconto']);
 			$pi->setVr_icms($row['val_icm']);
 			$pi->setVr_ipi($row['val_ipi']);
+			$pi->setCst_ipi($row['cstpis']);
+			$pi->setCst_cofins($row['cstcof']);
 			$pi->setVr_total($row['subtotal']);
+			$pi->setTotal_prod($row['tot_prod']);
 			$pi->setCfop($row['cfop']);
 			$pi->setOrig($row['cst']{0});
 			$pi->setCst(substr($row['cst'] , -2));
