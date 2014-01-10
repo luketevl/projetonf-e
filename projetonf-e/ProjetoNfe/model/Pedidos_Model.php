@@ -7,6 +7,7 @@ require('../controller/Produtos.php');
 require('../controller/Enderecos.php');
 require('../model/DataBase.php');
 require('../model/Entidade_Model.php');
+require('../helper/nfe_services.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
  *
@@ -44,6 +45,7 @@ class Pedidos_Model{
 		//echo $query;
 		$result = mysql_query($query);
 		$ar = array();
+		$opt = array();
 		$i= 0;
 		$p = new Pedidos();
 		$h = new NfeHistorico();
@@ -178,6 +180,12 @@ class Pedidos_Model{
 		}
 		$p->setNfeHistorico($ar['historicos']);
 		
+		$opt['chave_nfe'] = Nfe_Services::geraChaveNfe($p);
+
+		$p->setChave_acesso($opt['chave_nfe']);
+
+		$p->setExtras($opt);
+
 		
 // 		echo "<pre>";
 // 		echo print_r($p);

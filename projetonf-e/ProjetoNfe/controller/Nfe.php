@@ -1,6 +1,9 @@
 <?php
 require ('../model/Pedidos_Model.php');
 require ('../helper/File.php');
+require_once ('../helper/nfe_services.php');
+require_once('../helper/ws/libs/ConvertNFePHP.class.php');
+
 
 	class Nfe{
 		 
@@ -31,11 +34,10 @@ require ('../helper/File.php');
 		     $this->separador="|";
 		     $this->versao = "2.00";
 		     $tis->modelo = "55";
-		     $this->chave="NFe";
+		     $this->chave="NFe".$this->dados->getChave_acesso();
 		 }
 
 		 function header(){
-		 	$this->chave += "546546545645645646";
 			$this->header = "A".$this->separador . $this->versao . $this->separador . $this->chave . $this->separador;
 			return $this->header."\n";
 		 }
@@ -46,11 +48,10 @@ require ('../helper/File.php');
 		}
 
 		function emit(){
-			$this->emit += "C" . $this->separador . $this->dados->getEmitente()->getNome() . $this->separador . $this->dados->getEmitente()->getNomeFantasia() . $this->separador . $this->separador
-			 . $this->dados->getEmitente()->getIe() . $this->separador . $this->dados->getEmitente()->getIm() . $this->separador . "0131380" . $this->separador . "3" .  $this->separador;
-
-			$this->emit += "\n C02" . $this->separador . $this->dados->getEmitente()->getCpf_cnpj();
-			$this->emit += "\n C05" . $this->separador . $this->dados->getEmitente()->getEndereco()->getRua() . $this->separador . $this->dados->getEmitente()->getEndereco()->getNumero()
+			$this->emit = "C" . $this->separador . $this->dados->getEmitente()->getNome() . $this->separador . $this->dados->getEmitente()->getNomeFantasia() . $this->separador . $this->separador
+			. $this->dados->getEmitente()->getIe() . $this->separador . $this->dados->getEmitente()->getIm() . $this->separador . "0131380" . $this->separador . "3" .  $this->separador
+			. "\nC02" . $this->separador . $this->dados->getEmitente()->getCpf_cnpj()
+			. "\nC05" . $this->separador . $this->dados->getEmitente()->getEndereco()->getRua() . $this->separador . $this->dados->getEmitente()->getEndereco()->getNumero()
 			. $this->separador . "" . $this->separador  . $this->dados->getEmitente()->getEndereco()->getBairro() . $this->separador  . "3550308" . $this->separador . $this->dados->getEmitente()->getEndereco()->getCidade()
 			. $this->separador . $this->dados->getEmitente()->getEndereco()->getCep() . $this->separador . "1058" . $this->dados->getEmitente()->getEndereco()->getPais() . $this->separador . $this->dados->getEmitente()->getTelefone . $this->separador;
 			;
@@ -58,10 +59,9 @@ require ('../helper/File.php');
 		}
 
 		function dest(){
-			$this->dest = "E" . $this->separador . $this->dados->getDestinatario()->getNome() . $this->separador . $this->dados->getDestinatario()->getIe() . $this->separador . $this->separador . $this->separador;
-
-			$this->dest += "\n E02" . $this->separador . $this->dados->getDestinatario()->getCpf_cnpj();
-			$this->dest += "\n E05" . $this->separador . $this->dados->getDestinatario()->getEndereco()->getRua() . $this->separador . $this->dados->getDestinatario()->getEndereco()->getNumero()
+			$this->dest = "E" . $this->separador . $this->dados->getDestinatario()->getNome() . $this->separador . $this->dados->getDestinatario()->getIe() . $this->separador . $this->separador . $this->separador
+			. "\nE02" . $this->separador . $this->dados->getDestinatario()->getCpf_cnpj()
+			. "\nE05" . $this->separador . $this->dados->getDestinatario()->getEndereco()->getRua() . $this->separador . $this->dados->getDestinatario()->getEndereco()->getNumero()
 			. $this->separador . "" . $this->separador  . $this->dados->getDestinatario()->getEndereco()->getBairro() . $this->separador  . "3550308" . $this->separador . $this->dados->getDestinatario()->getEndereco()->getCidade()
 			. $this->separador . $this->dados->getDestinatario()->getEndereco()->getCep() . $this->separador . "1058" . $this->dados->getDestinatario()->getEndereco()->getPais() . $this->separador . $this->dados->getDestinatario()->getTelefone . $this->separador;
 			return $this->dest;
@@ -70,9 +70,9 @@ require ('../helper/File.php');
 		function det(){
 			$countProd=1;
 			foreach($this->dados->getPedidosItens() as $produtos){
-				$this += "H" . $this->separador . "1" . $this->separador . $produtos->getProduto()->getObservacoes() . $this->separador;
-				$this += "I" . $this->separador . $produtos->getProduto()->getCod() . $this->separador . $this->separador . $produtos->getProduto()->getDesc()
-				    . $this->separador . $produtos->getProduto()->getNcm() . $this->separador . $this->separador . $produtos->getCfop() . $this->separador . $produtos->getProdutos()->getUnd(). $this->separador . "46.8000" . $this->separador . "vUnCom". $this->separador. $produtos->getProdutos()->getVr_unitario() . $this->separador
+				$this->det = $this->det . "H" . $this->separador . "1" . $this->separador . $produtos->getProdutos()->getObservacoes() . $this->separador
+					. "I" . $this->separador . $produtos->getProdutos()->getCod() . $this->separador . $this->separador . $produtos->getProdutos()->getDesc()
+				    . $this->separador . $produtos->getProdutos()->getNcm() . $this->separador . $this->separador . $produtos->getCfop() . $this->separador . $produtos->getProdutos()->getUnd(). $this->separador . "46.8000" . $this->separador . "vUnCom". $this->separador. $produtos->getProdutos()->getVr_unitario() . $this->separador
 				    . $this->separador . $produtos->getProdutos()->getUnd(). $this->separador . "46.8000" . $this->separador .$produtos->getProdutos()->getVr_unitario() . $this->separador . $this->separador . $this->separador . $this->separador . "1" . $this->separador
 				    . "XPED" . $this->separador . $countProd . $this->separador
 					. "M" . $this->separador
@@ -90,17 +90,33 @@ require ('../helper/File.php');
 				    . $this->separador . $produtos->getTotal_prod() . $this->separador . $this->dados->getVr_frete() . $this->separador . $this->dados->getVr_seguro();
 				 $countProd++;
 			}
-		    $this += $this->separador -> $this->dados->getDesconto() . $this->separador . "vII" . $this->separador . $this->dados->getVr_ipi() . $this->separador . "vCOFINS" . $this->separador
+		    $this->det = $this->det . $this->separador . $this->dados->getDesconto() . $this->separador . "vII" . $this->separador . $this->dados->getVr_ipi() . $this->separador . "vCOFINS" . $this->separador
 		    . $this->dados->getDespesas_acessorias() . $this->separador . $this->dados->getVr_total_nota() . $this->separador
 		    . "X" . $this->separador . "0" . $this->separador
 		    . "Z" . $this->separador . "TEXTO NFE" . $this->separador  . $this->separador ;
 			return $this->det;
 		}
 
- 
- 
-
 	}
 	$nfe = new Nfe();
+
+	Nfe_Services::createXmlCancel($nfe->getDados(),"Estou afim de cancelar");
 	//echo "<pre>". print_r($nfe->getDados()) . "</pre>";
-	File::createFile("meucaralho",".txt",$nfe->header().$nfe->ide().$nfe->emit().	$nfe->dest());
+	File::createFile($nfe->getDados()->getChave_acesso()."-nfe",".txt",$nfe->header().$nfe->ide().$nfe->emit().$nfe->dest().$nfe->det());
+	$arq = $nfe->getDados()->getChave_acesso().'.txt';
+
+	//instancia a classe
+	$nfeHelper = new ConvertNFePHP();
+	if ( is_file($arq) ){
+	    $xml = $nfeHelper->nfetxt2xml($arq);
+	    //$xml = $xml[0];
+
+	    if ($xml != ''){
+	        echo '<PRE>';
+	        echo htmlspecialchars($xml);
+	        echo '</PRE><BR>';
+	        if (!file_put_contents('../resources/nfe/txt/0008-nfe.xml',$xml)){
+	            echo "ERRO na gravação";
+	        }
+	    }
+	}

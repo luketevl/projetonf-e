@@ -3,6 +3,7 @@
 require_once('../libs/ConvertNFePHP.class.php');
 
 $arq = 'xml/0008.txt';
+$arq = 'xml/0008.txt';
 
 //instancia a classe
 $nfe = new ConvertNFePHP();
