@@ -10,6 +10,7 @@ class Pedidos{
 	private $transportadora;
 	private $pedidosItens=array();
 	private $nfeHistorico = array();
+	private $extras = array();
 	private $bc_icms;
 	private $vr_icms;
 	private $bc_icms_st;
@@ -49,17 +50,20 @@ class Pedidos{
 	public function getNfeHistorico(){
 		return $this->nfeHistorico ;
 	}
+	public function getExtras(){
+		return $this->extras ;
+	}
 	public function getBc_icms(){
 		return $this->bc_icms ;
 	}
 	public function getVr_icms(){
-		return $this-> vr_icms;
+		return $this->vr_icms;
 	}
 	public function getBc_icms_st(){
 		return $this->bc_icms_st ;
 	}
 	public function getVr_icms_st(){
-		return $this-> vr_icms_st;
+		return $this->vr_icms_st;
 	}
 	public function getTotal_prod(){
 		return $this->total_prod ;
@@ -116,6 +120,9 @@ class Pedidos{
 	public function setPedidosItens($value){
 		$this->pedidosItens= $value;
 	}
+	public function setExtras($value){
+		$this->extras= $value;
+	}
 	public function setNfeHistorico($value){
 		$this->nfeHistorico= $value;
 	}
@@ -123,13 +130,13 @@ class Pedidos{
 		$this->bc_icms	= $value;
 	}
 	public function setVr_icms($value){
-		$this-> vr_icms= $value;
+		$this->vr_icms= $value;
 	}
 	public function setBc_icms_st($value){
 		$this->bc_icms_st= $value;
 	}
 	public function setVr_icms_st($value){
-		$this-> vr_icms_st= $value;
+		$this->vr_icms_st= $value;
 	}
 	public function setTotal_prod($value){
 		$this->total_prod	= $value;

@@ -106,8 +106,9 @@ class PDF extends FPDF
 		$y = $this->GetY();
 		$this->Cell(0,15,'',"LRB",0);
 		$chave_acesso = $this->ar->getChave_acesso();
-		if(!empty($chave_acesso))
-			$this->Code128($x+4,$y+2,$chave_acesso,68,10);
+		if(!empty($chave_acesso)){
+			//$this->Code128($x+4,$y+2,$chave_acesso,68,10);
+		}
 	
 		//CHAVE DE ACESSO
 		$this->SetFont('Times','',5);

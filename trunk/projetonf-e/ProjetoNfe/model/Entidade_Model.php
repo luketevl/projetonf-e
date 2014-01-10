@@ -17,6 +17,7 @@ class Entidade_Model{
             $end->setNumero($row['numero']);
             $end->setPais($row['pais']);
             $end->setRua($row['endereco']);
+            $end->setCodUF('11');
             
             $e->setNome($row['razao_social']);
             $e->setNomeFantasia($row['nome_fantasia']);
