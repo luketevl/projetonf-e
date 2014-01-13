@@ -1,6 +1,4 @@
 <?php
-require ($_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/model/Pedidos_Model.php');
-
 
 // Evita a exibição dos erros iniciais que aparecem ao instalar o sistema.
 // Ao gravar as alterações pela primeira vez,
@@ -25,12 +23,12 @@ $arquivoURLxmlCTe="cte_ws1.xml";
 // Diretório onde serão mantidos os arquivos com as NFe em xml
 // a partir deste diretório serão montados todos os subdiretórios do sistema
 // de manipulação e armazenamento das NFe. Não utilizar barra no final.
-$arquivosDir=$_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/nfe';
-$arquivosDirCTe=$_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/cte';
+$arquivosDir='/nfe';
+$arquivosDirCTe='/cte';
 
 // URL base da API, passa a ser necessária em virtude do uso dos arquivos wsdl
 // para acesso ao ambiente nacional. Não utilizar barra no final.
-$baseurl='http://localhost/ProjetoNfe/resources/ws';
+$baseurl='http://localhost/resources/ws';
 
 // Versão em uso dos shemas utilizados para validação dos xmls
 $schemes='PL_006n';
@@ -46,7 +44,7 @@ $empresa=$e->getNome();
 //Sigla da UF
 $UF=$e->getEndereco()->getCidade();
 //Código da UF
-$cUF='35';
+$cUF='11';
 //Número do CNPJ
 $cnpj=$e->getCpf_cnpj();
 
@@ -75,7 +73,7 @@ $passPhrase='';
 $danfeFormato='P'; //P-Retrato L-Paisagem
 $danfePapel='A4'; //Tipo de papel utilizado
 $danfeCanhoto=1; //se verdadeiro imprime o canhoto na DANFE
-$danfeLogo=$_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/resources/img/logo.jpg'; //passa o caminho para o LOGO da empresa
+$danfeLogo='/resources/img/logo.jpg'; //passa o caminho para o LOGO da empresa
 $danfeLogoPos='L'; //define a posição do logo na Danfe L-esquerda, C-dentro e R-direta
 $danfeFonte='Times'; //define a fonte do Danfe limitada as fontes compiladas no FPDF (Times)
 $danfePrinter='hpteste'; //define a impressora para impressão da Danfe
@@ -87,7 +85,7 @@ $danfePrinter='hpteste'; //define a impressora para impressão da Danfe
 $dacteFormato="P"; //P-Retrato L-Paisagem 
 $dactePapel="A4"; //Tipo de papel utilizado 
 $dacteCanhoto=1; //se verdadeiro imprime o canhoto na DANFE 
-$dacteLogo=$_SERVER['DOCUMENT_ROOT'].'/ProjetoNfe/resources/img/logo.jpg'; //passa o caminho para o LOGO da empresa 
+$dacteLogo='/resources/img/logo.jpg'; //passa o caminho para o LOGO da empresa 
 $dacteLogoPos="L"; //define a posição do logo na Danfe L-esquerda, C-dentro e R-direta 
 $dacteFonte="Times"; //define a fonte do Danfe limitada as fontes compiladas no FPDF (Times) 
 $dactePrinter="hpteste"; //define a impressora para impressão da Dacte 

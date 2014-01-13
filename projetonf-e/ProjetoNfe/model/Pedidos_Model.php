@@ -167,6 +167,7 @@ class Pedidos_Model{
 		}
         
         $tempEmitente = Entidade_Model::getEmpresa();
+        //echo "<pre>"; echo print_r($tempEmitente) ; echo  "</pre>";
 		$p->setEmitente($tempEmitente);
 		$query = "select * from nfe_historico nfh where nfh.id_nota = ". $id . " order by nfh.id ASC limit 1";
 		$result = mysql_query($query);
