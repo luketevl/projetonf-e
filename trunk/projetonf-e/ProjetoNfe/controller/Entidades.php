@@ -46,7 +46,7 @@ class Entidade{
 		$this->nome=$value;
 	}
 	public function setNomeFantasia($value){
-		$this->nome=$nomeFantasia;
+		$this->nomeFantasia=$nomeFantasia;
 	}
 	public function setEndereco($value){
 		$this->endereco=$value;
