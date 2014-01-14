@@ -23,12 +23,12 @@ $arquivoURLxmlCTe="cte_ws1.xml";
 // Diretório onde serão mantidos os arquivos com as NFe em xml
 // a partir deste diretório serão montados todos os subdiretórios do sistema
 // de manipulação e armazenamento das NFe. Não utilizar barra no final.
-$arquivosDir='/nfe';
+$arquivosDir='../../../nfe_producao';
 $arquivosDirCTe='/cte';
 
 // URL base da API, passa a ser necessária em virtude do uso dos arquivos wsdl
 // para acesso ao ambiente nacional. Não utilizar barra no final.
-$baseurl='http://localhost/resources/ws';
+$baseurl='http://localhost/ProjetoNfe/ProjetoNfe/';
 
 // Versão em uso dos shemas utilizados para validação dos xmls
 $schemes='PL_006n';

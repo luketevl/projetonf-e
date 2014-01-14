@@ -4,6 +4,8 @@ require ('../helper/File.php');
 //require_once ('../helper/nfe_services.php');
 require_once('../helper/ws/libs/ConvertNFePHP.class.php');
 require_once('../helper/ws/libs/ToolsNFePHP.class.php');
+require_once('../helper/ws/outros/NFeTools.class.php');
+
 
 	class Nfe{
 		 
@@ -104,35 +106,32 @@ require_once('../helper/ws/libs/ToolsNFePHP.class.php');
 
 	}
 	$nfe = new Nfe();
+	//Nfe_Services::verificaDisponibilidade();
 
-	Nfe_Services::createXmlCancel($nfe->getDados(),"Estou afim de cancelar");
 
 	//echo "<pre>". print_r($nfe->getDados()) . "</pre>";
 //echo phpinfo();
 
 	File::createFile($nfe->getDados()->getChave_acesso()."-nfe",".txt",$nfe->header().$nfe->ide().$nfe->emit().$nfe->dest().$nfe->det());
 	$arq = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.txt';
+	$arqXML = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.xml';
+
+	Nfe_Services::createXMLAprovacao($arq,$nfe);
+
+	
+	// Demonstracao XML cancelamento
+	Nfe_Services::createXmlCancel($nfe->getDados(),"MOTIVO CANCELAMENTO");
+	
+	
+	// Demonstracao XML inutilizacao
+	Nfe_Services::createXmlInutilizacao($nfe->getDados(),"MOTIVO INUTILIZACAO");
+
+	
+
+//	Nfe_Services::validaXML($arqXML);
 
 
-	//instancia a classe
-	$nfeHelper = new ConvertNFePHP();
 
-	if ( is_file($arq) ){
-		//echo '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.xml';
+	Nfe_Services::assinaXML($arqXML);
 
-	    $xml = $nfeHelper->nfetxt2xml($arq);
-	    $xml = $xml[0];
-	    if ($xml != ''){
-	        echo '<PRE>';
-	        echo htmlspecialchars($xml);
-	        echo '</PRE><BR>';
-		   if (!file_put_contents('../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.xml',$xml)){
-            echo "ERRO na gravação";
-        }
-        Nfe_Services::assinaXML($arq);
-        Nfe_Services::validaXML($arq);
-	    }
-	    else{
-	    	echo "em branco <br />";
-	    }
-	}
+	
