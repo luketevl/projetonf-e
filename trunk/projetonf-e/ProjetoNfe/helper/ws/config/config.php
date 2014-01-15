@@ -43,6 +43,7 @@ $e = Entidade_Model::getEmpresa();
 $empresa=$e->getNome();
 //Sigla da UF
 $UF=$e->getEndereco()->getCidade();
+$UF='SP';
 //Código da UF
 $cUF='11';
 //Número do CNPJ

@@ -5,7 +5,7 @@ require ('../helper/File.php');
 require_once('../helper/ws/libs/ConvertNFePHP.class.php');
 require_once('../helper/ws/libs/ToolsNFePHP.class.php');
 require_once('../helper/ws/outros/NFeTools.class.php');
-
+require_once('../helper/ws/libs/DanfeNFePHP.class.php');
 
 	class Nfe{
 		 
@@ -115,23 +115,20 @@ require_once('../helper/ws/outros/NFeTools.class.php');
 	File::createFile($nfe->getDados()->getChave_acesso()."-nfe",".txt",$nfe->header().$nfe->ide().$nfe->emit().$nfe->dest().$nfe->det());
 	$arq = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.txt';
 	$arqXML = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.xml';
+	$arqXML = '../resources/nfe/35101158716523000119550010000000011003000000-nfe.xml';
 
 	Nfe_Services::createXMLAprovacao($arq,$nfe);
 
-	
+	Nfe_Services::validaXML($arqXML);
+
+	Nfe_Services::assinaXML($arqXML);
+
 	// Demonstracao XML cancelamento
 	Nfe_Services::createXmlCancel($nfe->getDados(),"MOTIVO CANCELAMENTO");
-	
 	
 	// Demonstracao XML inutilizacao
 	Nfe_Services::createXmlInutilizacao($nfe->getDados(),"MOTIVO INUTILIZACAO");
 
-	
+	Nfe_Services::enviaNfe($nfe->getDados());
 
-//	Nfe_Services::validaXML($arqXML);
-
-
-
-	Nfe_Services::assinaXML($arqXML);
-
-	
+	Nfe_Services::geraDANFE($arqXML);

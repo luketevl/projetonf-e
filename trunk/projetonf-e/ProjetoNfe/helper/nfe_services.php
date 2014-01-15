@@ -109,7 +109,8 @@ class Nfe_Services{
 		//Por fim, para salvarmos o documento, utilizamos o método save()
 
 		$dom->save('../resources/nfe/'.$data->getChave_acesso().'-env-canc.xml');
-		echo " <br />XML Cancelamento criado <br />";
+		echo " <br />XML Cancelamento criado ";
+		echo '../resources/nfe/'.$data->getChave_acesso().'-ped-inu.xml ,<br />';
 	}
 
 	static function createXmlInutilizacao($data,$justificativa){
@@ -123,103 +124,71 @@ class Nfe_Services{
 		//Aqui, dizemos para o objeto que queremos gerar uma saída formatada
 		$dom->formatOutput = true;
 
-		$envEvento = $dom->createElement('envEvento');
-		$envEvento->setAttribute('xmlns','http://www.portalfiscal.inf.br/nfe');
-		$envEvento->setAttribute('versao','1.00');
+		$inutNFe = $dom->createElement('inutNFe');
+		$inutNFe->setAttribute('xmlns','http://www.portalfiscal.inf.br/nfe');
+		$inutNFe->setAttribute('versao','2.00');
+		$infInut = $dom->createElement('infInut');
+		$infInut->setAttribute('Id','ID1101113114011345905700010355778110000155180500001501');
 
-		$idLote = $dom->createElement('idLote');
-
-		$evento = $dom->createElement('evento');
-		$evento->setAttribute('versao','1.00');
-
-		$infEvento = $dom->createElement('infEvento');
-		$infEvento->setAttribute('Id','ID1101113114011345905700010355778110000155180500001501');
-
-		$cOrgao = $dom->createElement('cOrgao');
+		$xServ = $dom->createElement('xServ');
 		$tpAmb = $dom->createElement('tpAmb');
 		$CNPJ = $dom->createElement('CNPJ');
-		$chNFe = $dom->createElement('chNFe');
-		$dhEvento = $dom->createElement('dhEvento');
-		$infEvento = $dom->createElement('infEvento');
-		$tpEvento = $dom->createElement('tpEvento');
-		$nSeqEvento = $dom->createElement('nSeqEvento');
-		$verEvento = $dom->createElement('verEvento');
-
-		$detEvento = $dom->createElement('detEvento');
-		$detEvento->setAttribute('versao','1.00');
-
-		$descEvento = $dom->createElement('descEvento');
-		$nProt = $dom->createElement('nProt');
+		$cUF = $dom->createElement('cUF');
+		$ano = $dom->createElement('ano');
+		$mod = $dom->createElement('mod');
+		$serie = $dom->createElement('serie');
+		$nNFIni = $dom->createElement('nNFIni');
+		$nNFFin = $dom->createElement('nNFFin');
 		$xJust = $dom->createElement('xJust');
 
 
+		$xServVal =  $dom->createTextNode('INUTILIZAR');
 
-		$idLoteVal =  $dom->createTextNode('000000110000156');
-
-		$cOrgaoVal = $dom->createTextNode($data->getEmitente()->getEndereco()->getcodUF());
+		$cUFVal = $dom->createTextNode($data->getEmitente()->getEndereco()->getcodUF());
 
 		$tpAmbVal = $dom->createTextNode('1');
+		$anoVal = $dom->createTextNode(date('y'));
 
 		$CNPJVal = $dom->createTextNode($data->getEmitente()->getCpf_cnpj());
 
-		$chNFeVal = $dom->createTextNode($data->getChave_acesso());
-
-		$dhEventoVal = $dom->createTextNode(date('Y-m-d t h:m:s\-02:00').'2014-01-10T12:41:54-02:00');
-
-		$tpEventoVal = $dom->createTextNode('110111');
-
-		$nSeqEventoVal = $dom->createTextNode('1');
-
-		$verEventoVal = $dom->createTextNode('1.00');
-
-		$descEventoVal = $dom->createTextNode('Cancelamento');
-
-		$nProtVal = $dom->createTextNode('131140038101315');
-
+		$modVal = $dom->createTextNode('55');
+		$serieVal = $dom->createTextNode($data->getSerie());
+		$nNFIniVal = $dom->createTextNode($data->getDocumento());
+		$nNFFinVal = $dom->createTextNode($data->getDocumento());
 		$xJustVal = $dom->createTextNode($justificativa);
-
-
-
-
-		$idLote->appendChild($idLoteVal);
-		$cOrgao->appendChild($cOrgaoVal);
+		$xServ->appendChild($xServVal);
+		$cUF->appendChild($cUFVal);
 		$tpAmb->appendChild($tpAmbVal);
 		$CNPJ->appendChild($CNPJVal);
-		$chNFe->appendChild($chNFeVal);
-		$dhEvento->appendChild($dhEventoVal);
-		$tpEvento->appendChild($tpEventoVal);
-		$nSeqEvento->appendChild($nSeqEventoVal);
-		$verEvento->appendChild($verEventoVal);
-		$descEvento->appendChild($descEventoVal);
-		$nProt->appendChild($nProtVal);
+		$ano->appendChild($anoVal);
+		$mod->appendChild($modVal);
+		$serie->appendChild($serieVal);
+		$nNFIni->appendChild($nNFIniVal);
+		$nNFFin->appendChild($nNFFinVal);
 		$xJust->appendChild($xJustVal);
+		$inutNFe->appendChild($infInut);
 
+		$infInut->appendChild($tpAmb);
+		$infInut->appendChild($xServ);
+		$infInut->appendChild($cUF);
+		$infInut->appendChild($ano);
+		$infInut->appendChild($CNPJ);
+		$infInut->appendChild($mod);
+		$infInut->appendChild($serie);
+		$infInut->appendChild($nNFIni);
+		$infInut->appendChild($nNFFin);
 
-
-		$envEvento->appendChild($idLote);
-		$envEvento->appendChild($evento);
-		$evento->appendChild($infEvento);
-
-		$infEvento->appendChild($cOrgao);
-		$infEvento->appendChild($tpAmb);
-		$infEvento->appendChild($CNPJ);
-		$infEvento->appendChild($chNFe);
-		$infEvento->appendChild($dhEvento);
-		$infEvento->appendChild($tpEvento);
-		$infEvento->appendChild($nSeqEvento);
-		$infEvento->appendChild($verEvento);
-		$infEvento->appendChild($detEvento);
-
-		$detEvento->appendChild($descEvento);
-		$detEvento->appendChild($nProt);
-		$detEvento->appendChild($xJust);
-
-		$dom->appendChild($envEvento);
+		$infInut->appendChild($xJust);
+/*
+*/
+		$dom->appendChild($inutNFe);
 
 		//Por fim, para salvarmos o documento, utilizamos o método save()
 
-		$dom->save('../resources/nfe/'.$data->getChave_acesso().'-env-canc.xml');
-		echo " <br /> XML INUTILIZACAO criado <br />";
+		$dom->save('../resources/nfe/'.$data->getChave_acesso().'-ped-inu.xml');
+
+		echo " <br /> XML INUTILIZACAO criado em ";
+		echo '../resources/nfe/'.$data->getChave_acesso().'-ped-inu.xml ,<br />';
 	}
 
 	static function geraChaveNfe($data){
@@ -331,7 +300,8 @@ class Nfe_Services{
 			    $xml = $nfeHelper->nfetxt2xml($arq);
 			    $xml = $xml[0];
 			    if ($xml != ''){
-			    	echo "XML NF-e criado <br />";
+			    	echo "XML NF-e criado ";
+			    	echo '../resources/nfe/'.$nfe->getDados()->getChave_acesso().'-nfe.xml '."<br />";
 			        echo '<PRE>';
 			        echo htmlspecialchars($xml);
 			        echo '</PRE><BR>';
@@ -442,6 +412,7 @@ class Nfe_Services{
 
 			//use isso, este é o modo manual voce tem mais controle sobre o que acontece
 			$filename = '../resources/nfe/'.$data->getChave_acesso().'-nfe.xml';
+			$filename = '../resources/nfe/35101158716523000119550010000000011003000000-nfe.xml';
 			//obter um numero de lote
 			$lote = substr(str_replace(',','',number_format(microtime(true)*1000000,0)),0,15);
 			// montar o array com a NFe
@@ -451,17 +422,26 @@ class Nfe_Services{
 			    if ($aResp['bStat']){
 			        echo "Numero do Recibo : " . $aResp['nRec'] .", use este numero para obter o protocolo ou informações de erro no xml com testaRecibo.php.";
 			    } else {
-			        echo "Houve erro !! $nfe->errMsg";
+			        echo "Houve erro 1!! $nfe->errMsg";
 			    }
 			} else {
-			    echo "houve erro !!  $nfe->errMsg";
+			    echo "houve erro 2 !!  $nfe->errMsg";
 			}
 			echo '<BR><BR><h1>DEBUG DA COMUNICAÇÕO SOAP</h1><BR><BR>';
 			echo '<PRE>';
 			echo htmlspecialchars($nfe->soapDebug);
 			echo '</PRE><BR>';
-
-
 		}
 
+		static function geraDANFE($arq){
+			// Passe para este script o arquivo da NFe
+			$arq = 'xml/35101158716523000119550010000000011003000000-nfe.xml';
+
+			if ( is_file($arq) ){
+			    $docxml = file_get_contents($arq);
+			    $danfe = new DanfeNFePHP($docxml, 'P', 'A4','../images/logo.jpg','I','');
+			    $id = $danfe->montaDANFE();
+			    $arquivoPDFDanfe = $danfe->printDANFE($id.'.pdf','I');
+			}
+		}
 }

@@ -27,48 +27,7 @@
  *
  * Atenção: Esta classe não mantêm a compatibilidade com a versão 1.10 da SEFAZ !!!
  *
- * @package   NFePHP
  * @name      ToolsNFePHP
- * @version   3.0.72
- * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL v.3
- * @copyright 2009-2012 &copy; NFePHP
- * @link      http://www.nfephp.org/
- * @author    Roberto L. Machado <linux.rlm at gmail dot com>
- *
- *        CONTRIBUIDORES (em ordem alfabetica):
- *
- *              Allan Rett <allanlimao at gmail dot com>
- *              Antonio Neykson Turbano de Souza <neykson at gmail dot com>
- *              Bernardo Silva <bernardo at datamex dot com dot br>
- *              Bruno Bastos <brunomauro at gmail dot com>
- *              Bruno Lima <brunofileh at gmail.com>
- *              Bruno Tadeu Porto <brunotporto at gmail dot com>
- *              Daniel Viana <daniellista at gmail dot com>
- *              Diego Mosela <diego dot caicai at gmail dot com>
- *              Edilson Carlos Belluomini <edilson at maxihelp dot com dot br>
- *              Eduardo Gusmão <eduardo.intrasis at gmail dot com>
- *              Eduardo Pacheco <eduardo at onlyone dot com dot br>
- *              Fabio A. Silva <binhoouropreto at gmail dot com>
- *              Fabricio Veiga <fabriciostuff at gmail dot com>
- *              Felipe Bonato <montanhats at gmail dot com>
- *              Fernando Mertins <fernando dot mertins at gmail dot com>
- *              Gilmar de Paula Fiocca <gilmar at tecnixinfo dot com dot br>
- *              Giovani Paseto <giovaniw2 at gmail dot com>
- *              Giuliano Nascimento <giusoft at hotmail dot com>
- *              Glauber Cini <glaubercini at gmail dot com>
- *              Guilherme Filippo <guilherme at macromind dot com dot br>
- *              Jorge Luiz Rodrigues Tomé <jlrodriguestome at hotmail dot com>
- *              Leandro C. Lopez <leandro dot castoldi at gmail dot com>
- *              Mario Almeida <prog dot almeida at gmail.com>
- *              Nataniel Fiuza <natan at laxus dot com dot br>
- *              Odair Jose Santos Junior <odairsantosjunior at gmail dot com>
- *              Paulo Gabriel Coghi <paulocoghi at gmail dot com>
- *              Paulo Henrique Demori <phdemori at hotmail dot com>
- *              Rafael Stavarengo <faelsta at gmail dot com>
- *              Roberto Spadim <rspadim at gmail dot com>
- *              Romulo Cordeiro <rrromulo at gmail dot com>
- *              Vinicius L. Azevedo <vinilazev at gmail dot com>
- *              Walber da Silva Sales <eng dot walber at gmail dot com>
  *
  */
 //define o caminho base da instalação do sistema
@@ -922,7 +881,6 @@ class ToolsNFePHP
     * A validação não deve ser feita após a inclusão do protocolo !!!
     * Caso seja passado uma NFe ainda não assinada a falta da assinatura será desconsiderada.
     * @name validXML
-    * @author Roberto L. Machado <linux.rlm at gmail dot com>
     * @param    string  $xml  string contendo o arquivo xml a ser validado ou seu path
     * @param    string  $xsdfile Path completo para o arquivo xsd
     * @param    array   $aError Variável passada como referencia irá conter as mensagens de erro se houverem
@@ -1819,9 +1777,6 @@ class ToolsNFePHP
      * Este processo enviará somente até 50 NFe em cada Lote
      *
      * @name sendLot
-     * @version 2.1.11
-     * @package NFePHP
-     * @author Roberto L. Machado <linux.rlm at gmail dot com>
      * @param  mixed    $mNFe string com uma nota fiscal em xml ou um array com as NFe em xml, uma em cada campo do array unidimensional MAX 50
      * @param   integer $idLote     id do lote e um numero que deve ser gerado pelo sistema
      *                          a cada envio mesmo que seja de apenas uma NFe
@@ -4151,9 +4106,6 @@ class ToolsNFePHP
      * listDir
      * Método para obter todo o conteúdo de um diretorio, e
      * que atendam ao critério indicado.
-     * @version 2.1.3
-     * @package NFePHP
-     * @author Roberto L. Machado <linux.rlm at gmail dot com>
      * @param string $dir Diretorio a ser pesquisado
      * @param string $fileMatch Critério de seleção pode ser usados coringas como *-nfe.xml
      * @param boolean $retpath se true retorna o path completo dos arquivos se false so retorna o nome dos arquivos
