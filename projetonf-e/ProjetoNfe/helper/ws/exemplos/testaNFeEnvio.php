@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Exemplo de envio de Nfe já assinada e validada
  */
@@ -17,10 +18,10 @@ if ($aResp = $nfe->sendLot($aNFe, $lote, $modSOAP)){
     if ($aResp['bStat']){
         echo "Numero do Recibo : " . $aResp['nRec'] .", use este numero para obter o protocolo ou informações de erro no xml com testaRecibo.php.";
     } else {
-        echo "Houve erro !! $nfe->errMsg";
+        echo "Erro !! $nfe->errMsg";
     }
 } else {
-    echo "houve erro !!  $nfe->errMsg";
+    echo "Erro 2!!  $nfe->errMsg";
 }
 echo '<BR><BR><h1>DEBUG DA COMUNICAÇÕO SOAP</h1><BR><BR>';
 echo '<PRE>';
