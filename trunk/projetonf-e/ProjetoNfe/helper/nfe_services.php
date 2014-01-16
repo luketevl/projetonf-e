@@ -192,11 +192,12 @@ class Nfe_Services{
 	}
 
 	static function geraChaveNfe($data){
+		//echo "<pre>"; echo print_r($data); echo "</pre>";
 		$cUF = $data->getEmitente()->getEndereco()->getCodUF();    //Código da UF [02] 
-		$aamm = '1102';     //AAMM da emissão [4]
+		$aamm = date('ym');      //1102 AAMM da emissão [4]
 		$cnpj = $data->getEmitente()->getCpf_cnpj();     //CNPJ do Emitente [14]
 		$mod='55';      //Modelo [02]
-		$serie='001';     //Série [03]
+		$serie='01';     //Série [03]
 		$num= $data->getNfe_numero();       //Número da NF-e [09]
 		$tpEmis='1';     //forma de emissão da NF-e [01] 1 – Normal – emissão normal; 2 – Contingência FS; 3 – Contingência SCAN; 4 – Contingência DPEC; 5 – Contingência FS-DA 
 		$cn='';         //Código Numérico [08]
@@ -227,7 +228,7 @@ class Nfe_Services{
 		echo 'tpEmis = '.$tpEmis.'<BR>';
 		echo 'CODIGO = '.$cn.'<BR>';
 		echo 'DV = '.$dv.'<BR>';
-		echo "CHAVE = $chave  [$n]"; */
+		echo "CHAVE = $chave  [$n]";  */
 		return $chave ;
 	}
 		static function geraCN($length=8){
@@ -271,7 +272,7 @@ class Nfe_Services{
 			        echo $er .'<br>';
 			    }
 			} else {
-			    echo 'VALIDADA!';
+			    echo "XML VALIDADO! <br />";
 			}
 		}
 		static function assinaXML($file){
@@ -412,7 +413,7 @@ class Nfe_Services{
 
 			//use isso, este é o modo manual voce tem mais controle sobre o que acontece
 			$filename = '../resources/nfe/'.$data->getChave_acesso().'-nfe.xml';
-			$filename = '../resources/nfe/35101158716523000119550010000000011003000000-nfe.xml';
+			// $filename = '../resources/nfe/35101158716523000119550010000000011003000000-nfe.xml';
 			//obter um numero de lote
 			$lote = substr(str_replace(',','',number_format(microtime(true)*1000000,0)),0,15);
 			// montar o array com a NFe
@@ -421,10 +422,12 @@ class Nfe_Services{
 			if ($aResp = $nfe->sendLot($aNFe, $lote, $modSOAP)){
 			    if ($aResp['bStat']){
 			        echo "Numero do Recibo : " . $aResp['nRec'] .", use este numero para obter o protocolo ou informações de erro no xml com testaRecibo.php.";
-			    } else {
+			    } 
+			    else {
 			        echo "Houve erro 1!! $nfe->errMsg";
 			    }
-			} else {
+			} 
+			else {
 			    echo "houve erro 2 !!  $nfe->errMsg";
 			}
 			echo '<BR><BR><h1>DEBUG DA COMUNICAÇÕO SOAP</h1><BR><BR>';
@@ -435,7 +438,7 @@ class Nfe_Services{
 
 		static function geraDANFE($arq){
 			// Passe para este script o arquivo da NFe
-			$arq = 'xml/35101158716523000119550010000000011003000000-nfe.xml';
+			//$arq = 'xml/35101158716523000119550010000000011003000000-nfe.xml';
 
 			if ( is_file($arq) ){
 			    $docxml = file_get_contents($arq);

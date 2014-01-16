@@ -27,7 +27,7 @@ class Entidade{
 		return $this->telefone ;
 	}
 	public function getCpf_cnpj(){
-		return $this->cpf_cpnj ;
+		return $this->cpf_cnpj ;
 	}
 	public function getIe(){
 		return $this->ie ;
@@ -55,7 +55,7 @@ class Entidade{
 		$this->telefone=$value;
 	}
 	public function setCpf_cnpj($value){
-		$this->cpf_cpnj=$value;
+		$this->cpf_cnpj=$value;
 	}
 	public function setIe($value){
 		 $this->ie=$value;
