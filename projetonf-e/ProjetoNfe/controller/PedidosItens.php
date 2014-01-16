@@ -11,6 +11,8 @@ class PedidosItens{
 	private $vr_icms;
 	private $total_icms;
 	private $vr_ipi;
+	private $vr_pis;
+	private $vr_cofins;
 	private $aliq_icms;
 	private $aliq_ipi;
 	private $aliq_pis;
@@ -48,6 +50,12 @@ class PedidosItens{
 	}
 	public function getVr_ipi(){
 		return $this->vr_ipi;
+	}
+	public function getVr_cofins(){
+		return $this->vr_cofins;
+	}
+	public function getVr_pis(){
+		return $this->vr_pis;
 	}
 	public function getAliq_icms(){
 		return $this->aliq_icms;
@@ -102,10 +110,16 @@ class PedidosItens{
 		$this->vr_icms = $value;
 	}
 	public function setTotal_icms($value){
-		$this->vr_icms = $value;
+		$this->total_icms = $value;
 	}
 	public function setVr_ipi($value){
 		$this->vr_ipi = $value;
+	}
+	public function setVr_cofins($value){
+		$this->vr_cofins = $value;
+	}
+	public function setVr_pis($value){
+		$this->vr_pis = $value;
 	}
 	public function setAliq_icms($value){
 		$this->aliq_icms = $value;
@@ -123,7 +137,7 @@ class PedidosItens{
 		$this->cst_ipi = $value;
 	}
 	public function setCst_cofins($value){
-		$this->cst_ipi = $value;
+		$this->cst_cofins = $value;
 	}
 	public function setCfop($value){
 		$this->cfop = $value;

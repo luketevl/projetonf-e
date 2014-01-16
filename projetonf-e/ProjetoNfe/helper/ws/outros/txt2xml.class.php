@@ -4,10 +4,6 @@
  * Classes para geração da NF-e e gravação em DB
  * NFe layout 1.10
  * @license GNU/GPL v.3
- * @author  Daniel Batista Lemes <dlemes at gmail dot com >
- * @date    27/06/2009
- * @author Beto ( ees.beto at gmail)
- * @date 01/09/2009
  */
 
 //print_r("<pre>");

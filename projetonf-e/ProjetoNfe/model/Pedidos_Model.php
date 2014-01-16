@@ -8,6 +8,7 @@ require('../controller/Enderecos.php');
 require('../model/DataBase.php');
 require('../model/Entidade_Model.php');
 require('../helper/nfe_services.php');
+require('../helper/format.php');
 /**
  * Classe que faz todas as consultas com o banco de dados
  *
@@ -69,7 +70,6 @@ class Pedidos_Model{
 			$end->setPais($row['cli_pais']);
 			$end->setRua($row['cli_endereco']);
 			
-			
 			$d->setNome($row['cli_razao_social']);
 			
 			$d->setCpf_cnpj($row['cli_cnpj']);
@@ -106,52 +106,56 @@ class Pedidos_Model{
 			$p->setNfe_numero($row['nfe_numero']);
 			$p->setDocumento($row['documento']);
 			$p->setSerie($row['nfe_serie']);
-			$p->setBc_icms($row['preco_icms']);
 
-			$p->setBc_icms_st($row['preco_icms_st']);
-			$p->setDesconto($row['desconto']);
-			$p->setDespesas_acessorias($row['despesa']);
+			$p->setBc_icms(Format::format_vazioToZero($row['preco_icms']));
+
+			$p->setBc_icms_st(Format::format_vazioToZero($row['preco_icms_st']));
+			$p->setDesconto(Format::format_vazioToZero($row['desconto']));
+			$p->setDespesas_acessorias(Format::format_vazioToZero($row['despesa']));
 			$p->setDestinatario($d);
 			$p->setTransportadora($t);
 			$p->setInfo_complementares($row['observacao']);
-			$p->setTotal_prod($row['total']);
-			$p->setVr_frete($row['preco_frete']);
-			$p->setVr_icms($row['preco_icms']);
-			$p->setVr_ipi($row['incidencia_ipi']);
-			$p->setVr_seguro(0);
-			$p->setVr_total_nota($row['total']);
+			$p->setTotal_prod(Format::format_vazioToZero($row['total']));
+			$p->setVr_frete(Format::format_vazioToZero($row['preco_frete']));
+			$p->setVr_icms(Format::format_vazioToZero($row['preco_icms']));
+			$p->setVr_ipi(Format::format_vazioToZero($row['incidencia_ipi']));
+			$p->setVr_cofins(Format::format_vazioToZero($row['valor_cofins']));
+			$p->setVr_seguro(Format::format_vazioToZero(0));
+			$p->setVr_total_nota(Format::format_vazioToZero($row['total']));
 			$p->setCfop_descricao($row['cfop_descricao']);
 			$p->setCfop($row['cfop_descricao']);
 			
 			
-			$pi->setAliq_icms($row['total']);
-			$pi->setAliq_ipi($row['val_ipi']);
+			$pi->setAliq_icms(Format::format_vazioToZero($row['total']));
+			$pi->setAliq_ipi(Format::format_vazioToZero($row['val_ipi']));
 			
-			$pi->setTotal_icms($row['total_icm']);
+			$pi->setTotal_icms(Format::format_vazioToZero($row['total_icm']));
 			
-			$pi->setAliq_pis($row['aliqpis']);
-			$pi->setAliq_cofins($row['aliqcof']);
+			$pi->setAliq_pis(Format::format_vazioToZero($row['aliqpis']));
+			$pi->setAliq_cofins(Format::format_vazioToZero($row['aliqcof']));
 
-			$pi->setBc_icms($row['base_icm']);
-			$pi->setQtd($row['quantidade']);
-			$pi->setVr_desc($row['desconto']);
-			$pi->setVr_icms($row['val_icm']);
-			$pi->setVr_ipi($row['val_ipi']);
-			$pi->setCst_ipi($row['cstpis']);
-			$pi->setCst_cofins($row['cstcof']);
-			$pi->setVr_total($row['subtotal']);
-			$pi->setTotal_prod($row['tot_prod']);
+			$pi->setBc_icms(Format::format_vazioToZero($row['base_icm']));
+			$pi->setQtd(Format::format_vazioToZero($row['quantidade']));
+			$pi->setVr_desc(Format::format_vazioToZero($row['desconto']));
+			$pi->setVr_icms(Format::format_vazioToZero($row['val_icm']));
+			$pi->setVr_ipi(Format::format_vazioToZero($row['val_ipi']));
+			$pi->setVr_pis(Format::format_vazioToZero($row['valor_pis']));
+			$pi->setVr_pis(Format::format_vazioToZero($row['valor_cofins']));
+			$pi->setCst_ipi(Format::format_vazioToZero($row['cstpis']));
+			$pi->setCst_cofins(Format::format_vazioToZero($row['cstcof']));
+			$pi->setVr_total(Format::format_vazioToZero($row['subtotal']));
+			$pi->setTotal_prod(Format::format_vazioToZero($row['tot_prod']));
 			$pi->setCfop($row['cfop']);
 			$pi->setOrig($row['cst']{0});
 			$pi->setCst(substr($row['cst'] , -2));
-			$pi->setVr_unit_pedido($row['preco_unitario']);
+			$pi->setVr_unit_pedido(Format::format_vazioToZero($row['preco_unitario']));
 			$ar['itens'][$i]= $pi;	
 			
             $prod->setCod($row['id_prod']);
             $prod->setDesc($row['titulo']);
             $prod->setNcm($row['classificacao_fiscal']);
             $prod->setUnd($row['unidade']);
-            $prod->setVr_unitario($row['preco_unitario']);
+            $prod->setVr_unitario(Format::format_decimal($row['preco_unitario']));
             $prod->setObservacoes($row['observacoes']);
             $prod->setObservacoes($row['tabela_st']);
 

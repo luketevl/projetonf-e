@@ -21,6 +21,7 @@ class Pedidos{
 	private $desconto;
 	private $despesas_acessorias;
 	private $vr_ipi;
+	private $vr_cofins;
 	private $vr_total_nota;
 	private $info_complementares;
 	private $cfop;
@@ -82,6 +83,9 @@ class Pedidos{
 	}
 	public function getVr_ipi(){
 		return $this->vr_ipi ;
+	}
+	public function getVr_cofins(){
+		return $this->vr_cofins ;
 	}
 	public function getVr_total_nota(){
 		return $this->vr_total_nota ;
@@ -155,6 +159,9 @@ class Pedidos{
 	}
 	public function setVr_ipi($value){
 		$this->vr_ipi= $value;
+	}
+	public function setVr_cofins($value){
+		$this->vr_cofins= $value;
 	}
 	public function setVr_total_nota($value){
 		$this->vr_total_nota= $value;
