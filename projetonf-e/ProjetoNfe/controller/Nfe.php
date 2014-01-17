@@ -1,5 +1,6 @@
 <?php
 require ('../model/Pedidos_Model.php');
+require ('../model/Historico_Model.php');
 require ('../helper/File.php');
 //require_once ('../helper/nfe_services.php');
 require_once('../helper/ws/libs/ConvertNFePHP.class.php');
@@ -63,7 +64,7 @@ require_once('../helper/ws/libs/DanfeNFePHP.class.php');
 		}
 
 		function dest(){
-			$this->dest = "\nE" . $this->separador . $this->dados->getDestinatario()->getNome() . $this->separador . $this->dados->getDestinatario()->getIe() . $this->separador . $this->separador . $this->separador
+			$this->dest = "\nE" . $this->separador . $this->dados->getDestinatario()->getNome() . $this->separador . $this->dados->getDestinatario()->getIe() . $this->separador . $this->separador  . $this->separador
 			. "\nE02" . $this->separador . str_replace("-","",str_replace("/","",str_replace(".", "", $this->dados->getDestinatario()->getCpf_cnpj()))) . $this->separador
 			. "\nE05" . $this->separador . $this->dados->getDestinatario()->getEndereco()->getRua() . $this->separador . $this->dados->getDestinatario()->getEndereco()->getNumero()
 			. $this->separador . $this->separador . $this->dados->getDestinatario()->getEndereco()->getBairro() . $this->separador  . "3550308" . $this->separador . $this->dados->getDestinatario()->getEndereco()->getCidade()
@@ -108,7 +109,8 @@ require_once('../helper/ws/libs/DanfeNFePHP.class.php');
 		}
 
 	}
-	$nfe = new Nfe(571);
+	$id = $_GET['id'];
+	$nfe = new Nfe($id);
 	//Nfe_Services::verificaDisponibilidade();
 
 
@@ -118,7 +120,10 @@ require_once('../helper/ws/libs/DanfeNFePHP.class.php');
 	File::createFile($nfe->getDados()->getChave_acesso()."-nfe",".txt",$nfe->header().$nfe->ide().$nfe->emit().$nfe->dest().$nfe->det());
 	$arq = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.txt';
 	$arqXML = '../resources/nfe/txt/'.$nfe->getDados()->getChave_acesso().'-nfe.xml';
+
+	Nfe_Services::geraDANFE($arqXML);
 	//$arqXML = '../resources/nfe/35101158716523000119550010000000011003000000-nfe.xml';
+
 
 	Nfe_Services::createXMLAprovacao($arq,$nfe);
 
@@ -126,9 +131,8 @@ require_once('../helper/ws/libs/DanfeNFePHP.class.php');
 
 	Nfe_Services::assinaXML($arqXML);
 
-	Nfe_Services::enviaNfe($nfe->getDados());
+/*	Nfe_Services::enviaNfe($nfe->getDados()); */
 
-	Nfe_Services::geraDANFE($arqXML);
 	
 	// Demonstracao XML cancelamento
 	Nfe_Services::createXmlCancel($nfe->getDados(),"MOTIVO CANCELAMENTO");

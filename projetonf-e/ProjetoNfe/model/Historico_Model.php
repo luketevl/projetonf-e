@@ -16,7 +16,6 @@ class Historico_Model{
 				 	."'". $h->getSituacao() ."',"
 				 	."'". $h->getMotivo_Detalhado() ."'"
 			 	 .');';
-
 		mysql_query($query) or die(mysql_error());
 		mysql_close();
 	}
